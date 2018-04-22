@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzou.mapper.AttendDao">
+    <resultMap id="attend" type="com.youzou.domain.Attend">
+        <id property="atteId" column="atte_id"/>
+        <result property="atteEmpId" column="atte_emp_id"/>
+        <result property="atteStart" column="stte_start"/>
+        <result property="atteOff" column="atte_off"/>
+        <result property="atteStat" column="atte_stat"/>
+    </resultMap>
+</mapper>

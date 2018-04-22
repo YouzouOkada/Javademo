@@ -1,0 +1,70 @@
+body{
+    background-color: aqua;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+#container{
+    margin: 0 auto;
+    width: 1000px;
+    text-align: left;
+    background-color: coral;
+}
+header{
+    margin: 0;
+    padding: 0;
+    height: 150px;
+    background-color: orange;
+}
+nav{
+    margin: 0;
+    padding: 0;
+    height: 20px;
+}
+nav ul{
+    list-style: none;
+    margin: 2px 0;
+    padding: 0;
+}
+nav ul li{
+    margin: 0;
+    padding: 0;
+    float: left;
+    text-align: center;
+    width: 100px;
+}
+aside{
+    width: 200px;
+    background-color: rebeccapurple;
+    margin: 0;
+    padding: 0;
+    height: 500px;
+    float: left;
+}
+article{
+    margin: 0 2px;
+    padding: 5px 0;
+    height:500px;
+    width: 700px;
+    float: left;
+    background-color:deeppink;
+}
+footer{
+    height: 100px;
+    background-color: yellow;
+    clear: both;
+}
+.clear{
+    content: "";
+    display: block;
+    clear: both;
+}
+form p{
+    padding: 0;
+    text-align: center;
+}
+form p button{
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+}

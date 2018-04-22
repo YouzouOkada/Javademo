@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzou.mapper.RewPunDao">
+    <resultMap id="rewPun" type="com.youzou.domain.RewPun">
+        <id property="rapId" column="rap_id"/>
+        <result property="rapEmpId" column="rap_emp_id"/>
+        <result property="rapDate" column="rap_date"/>
+        <result property="rapMoney" column="rap_money"/>
+        <result property="rapRea" column="rap_rea"/>
+    </resultMap>
+</mapper>

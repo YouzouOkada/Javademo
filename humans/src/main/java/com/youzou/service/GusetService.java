@@ -7,4 +7,6 @@ import com.youzou.domain.Guest;
  */
 public interface GusetService {
     Guest login(Guest guest);
+
+    boolean register(Guest guest);
 }

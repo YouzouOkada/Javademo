@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzou.mapper.ResumeDao">
+    <resultMap id="resume" type="com.youzou.domain.Resume">
+        <id property="resId" column="res_id"/>
+        <result property="resGuId" column="res_gu_id"/>
+        <result property="resName" column="res_name"/>
+        <result property="resGend" column="res_gend"/>
+        <result property="resBirth" column="res_birth"/>
+        <result property="resPhone" column="res_phone"/>
+        <result property="resEmail" column="res_email"/>
+        <result property="resLoc" column="res_loc"/>
+        <result property="resEdu" column="res_edu"/>
+        <result property="resExp" column="res_exp"/>
+        <result property="resDesc" column="res_desc"/>
+    </resultMap>
+    <insert id="addResume">
+        INSERT INTO T_RESUME (RES_GU_ID, RES_NAME, RES_BIRTH, RES_PHONE, RES_EMAIL, RES_LOC, RES_DESC)
+        VALUES (#{resGuId},#{resName},#{resBirth},#{resPhone},#{resEmail},#{resLoc},#{resDesc})
+    </insert>
+    <update id="updateResume">
+        UPDATE T_RESUME <set>
+        <if test="resName!=null">
+            res_name=#{resName},
+        </if>
+        <if test="resGend!=null">
+            res_gend=#{resGend},
+        </if>
+        <if test="resBirth!=null">
+            res_birth=#{resBirth},
+        </if>
+        <if test="resPhone!=null">
+            res_phone=#{resPhone},
+        </if>
+        <if test="resEmail!=null">
+            res_email=#{resEmail},
+        </if>
+        <if test="resLoc!=null">
+            res_loc=#{resLoc},
+        </if>
+        <if test="resEdu!=null">
+            res_edu=#{resEdu},
+        </if>
+        <if test="resExp!=null">
+            res_exp=#{resExp},
+        </if>
+        <if test="resDesc!=null">
+            res_desc=#{resDesc}
+        </if>
+    </set>
+        <where>
+            res_gu_id=#{resGuId}
+        </where>
+    </update>
+    <select id="queryByGuId" resultMap="resume">
+        SELECT * FROM T_RESUME WHERE RES_GU_ID=#{guId}
+    </select>
+</mapper>

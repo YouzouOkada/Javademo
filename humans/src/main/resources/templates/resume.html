@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/XSL/Transform">
+<head>
+    <meta charset="UTF-8"/>
+    <title>填写简历</title>
+    <link rel="stylesheet" href="/css/base.css"/>
+</head>
+<body>
+<div id="container">
+    <header>
+        h
+    </header>
+    <nav>
+        n
+    </nav>
+    <aside>
+        l
+    </aside>
+    <article>
+        <form th:if="${resume==null}" action="addResume" method="post">
+            <table border="1">
+                <tr>
+                    <td>姓名</td>
+                    <td><input name="resName"/></td>
+                    <td>性别</td>
+                    <td>
+                        <input type="radio" name="resGend" value="0" checked="checked"/>男
+                        <input type="radio" name="resGend" value="1"/>女
+                    </td>
+                    <td>籍贯</td>
+                    <td><input name="resLoc"/></td>
+                </tr>
+                <tr>
+                    <td>出生日期</td>
+                    <td><input name="resBirth" type="date"/></td>
+                    <td>手机号码</td>
+                    <td th:text="${session.guest?.guPhone}"></td>
+                    <td>电子邮箱</td>
+                    <td><input name="resEmail"/></td>
+                </tr>
+                <tr>
+                    <td>教育经历</td>
+                    <td>
+                        <select>
+                            <option value="0"  th:selected="${resEdu=='0'}">博士及以上</option>
+                            <option value="1"  th:selected="${resEdu=='1'}">硕士</option>
+                            <option value="2"  th:selected="${resEdu=='2'}">本科</option>
+                            <option value="3"  th:selected="${resEdu=='3'}">大专</option>
+                            <option value="4"  th:selected="${resEdu=='4'}">高中/高职</option>
+                            <option value="5"  th:selected="${resEdu=='5'}">初中/中专</option>
+                            <option value="6" selected="selected" th:selected="${resEdu=='6'}">小学及以下</option>
+                        </select>
+                    </td>
+                    <td>工作经验</td>
+                    <td><input name="resExp" type="number" min="0" max="50" />年</td>
+                </tr>
+                <tr>
+                    <td>自我简介</td>
+                    <td colspan="5"><input name="resDesc" style="width: 500px"/></td>
+                </tr>
+            </table>
+            <input type="hidden" name="resGuId" th:value="${session.guest?.guId}"/>
+            <p>
+                <button type="submit">提交</button>
+            </p>
+            <p th:text="${failed}"></p>
+        </form>
+        <form th:if="${resume}" action="editResume" method="post">
+            <table border="1">
+                <tr>
+                    <td>姓名</td>
+                    <td><input name="resName" th:placeholder="${resume?.resName}"/></td>
+                    <td>性别</td>
+                    <td>
+                        <input type="radio" name="resGend" value="0" checked="checked"/>男
+                        <input type="radio" name="resGend" value="1"/>女
+                    </td>
+                    <td>籍贯</td>
+                    <td><input name="resLoc" th:placeholder="${resume?.resLoc}"/></td>
+                </tr>
+                <tr>
+                    <td>出生日期</td>
+                    <td><input name="resBirth" type="date" th:placeholder="${resume?.resBirth}"/></td>
+                    <td>手机号码</td>
+                    <td th:text="${session.guest?.guPhone}"></td>
+                    <td>电子邮箱</td>
+                    <td><input name="resEmail" th:placeholder="${resume?.resEmail}"/></td>
+                </tr>
+                <tr>
+                    <td>教育经历</td>
+                    <td>
+                        <!--<input name="resEdu" type="radio" value="0"/>博士及以上-->
+                        <!--<input name="resEdu" type="radio" value="1"/>硕士-->
+                        <!--<input name="resEdu" type="radio" value="2"/>本科-->
+                        <!--<input name="resEdu" type="radio" value="3"/>大专-->
+                        <!--<input name="resEdu" type="radio" value="4"/>高中/高职-->
+                        <!--<input name="resEdu" type="radio" value="5"/>初中/中专-->
+                        <!--<input name="resEdu" type="radio" value="6"/>小学及以下-->
+                        <select>
+                            <option value="0"  th:selected="${resEdu=='0'}">博士及以上</option>
+                            <option value="1"  th:selected="${resEdu=='1'}">硕士</option>
+                            <option value="2"  th:selected="${resEdu=='2'}">本科</option>
+                            <option value="3"  th:selected="${resEdu=='3'}">大专</option>
+                            <option value="4"  th:selected="${resEdu=='4'}">高中/高职</option>
+                            <option value="5"  th:selected="${resEdu=='5'}">初中/中专</option>
+                            <option value="6" selected="selected" th:selected="${resEdu=='6'}">小学及以下</option>
+                        </select>
+                    </td>
+                    <td>工作经验</td>
+                    <td><input name="resExp" type="number" min="0" max="50" th:placeholder="${resume?.resExp}"/>年</td>
+                </tr>
+                <tr>
+                    <td>自我简介</td>
+                    <td colspan="5"><input name="resDesc" style="width: 500px"/></td>
+                </tr>
+            </table>
+            <input type="hidden" name="resGuId" th:value="${session.guest?.guId}"/>
+            <p>
+                <button type="submit">提交</button>
+            </p>
+            <p th:text="${failed}"></p>
+        </form>
+    </article>
+    <footer>
+
+    </footer>
+</div>
+</body>
+</html>

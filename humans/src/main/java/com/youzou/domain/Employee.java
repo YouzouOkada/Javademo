@@ -5,18 +5,24 @@ import java.io.Serializable;
 
 /**
  * Created by 葉蔵 on 2018/4/20.
+ * 员工表
  */
 public class Employee implements Serializable {
     private long empId;//员工编号
     private long empDeptId;//部门编号
     private long empPosiId;//职位编号
     private int empStat;//工作状态 0:在职 1:试用期 2:离职
-    private String empLeaRea;//离职原因
-    private String empPass;//密码
-    private String empPhone;//手机号
+    private String empLeaRea;//离职原因 emp_stat=2才有，其他情况为空
+    private String empPass;//密码 同游客密码
+    private String empPhone;//手机号 简历中手机号
     private int empAttend;//出勤天数
 
     public Employee() {
+    }
+
+    public Employee(String empPass, String empPhone) {
+        this.empPass = empPass;
+        this.empPhone = empPhone;
     }
 
     public long getEmpId() {

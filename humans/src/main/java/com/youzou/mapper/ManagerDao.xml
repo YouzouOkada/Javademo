@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzou.mapper.ManagerDao">
+    <select id="login" resultMap="manager">
+        SELECT * FROM T_MANAGER WHERE MAN_ACCOUNT=#{manAccount} AND MAN_PASS=#{manPass}
+    </select>
+    <resultMap id="manager" type="com.youzou.domain.Manager">
+        <id property="manId" column="man_id"/>
+        <result property="manAccount" column="man_account"/>
+        <result property="manPass" column="man_pass"/>
+    </resultMap>
+</mapper>

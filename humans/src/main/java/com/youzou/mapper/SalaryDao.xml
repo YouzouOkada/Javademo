@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzou.mapper.SalaryDao">
+    <resultMap id="salary" type="com.youzou.domain.Salary">
+        <id property="salId" column="sal_id"/>
+        <result property="salEmpId" column="sal_emp_id"/>
+        <result property="salBase" column="sal_base"/>
+        <result property="salPer" column="sal_per"/>
+        <result property="salOver" column="sal_over"/>
+        <result property="salRap" column="sal_rap"/>
+        <result property="salSoc" column="sal_soc"/>
+        <result property="salTot" column="sal_tot"/>
+        <result property="salTime" column="sal_time"/>
+    </resultMap>
+</mapper>

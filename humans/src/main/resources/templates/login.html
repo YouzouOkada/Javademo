@@ -3,19 +3,39 @@
 <head>
     <meta charset="UTF-8"/>
     <title>登录</title>
+    <link rel="stylesheet" href="/css/base.css"/>
 </head>
 <body>
-<form action="login.do" method="post">
-    <p>
-        手机号：<input name="guPhone"/>
-    </p>
-    <p>
-        密码：<input type="password" name="guPass"/>
-    </p>
-    <p>
-        <input type="submit" value="登录"/>
-    </p>
-</form>
+<div id="container">
+    <header>
+        h
+    </header>
+    <nav>
+        <a href="recuritView">招聘信息</a>
+    </nav>
+    <aside>
+        l
+    </aside>
+    <article>
+        <form action="login" method="post">
+            <p>
+                账号：<input name="acc"/>
+            </p>
+            <p>
+                密码：<input type="password" name="pass"/>
+            </p>
+            <p>
+                <button type="submit">登录</button>
+                <button type="reset">取消</button>
+                <a href="pages?page=register">注册</a>
+            </p>
+        </form>
+    </article>
+    <footer>
+
+    </footer>
+</div>
+
 
 </body>
 </html>

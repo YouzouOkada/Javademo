@@ -1,8 +1,8 @@
-package com.youzou.service;
+package com.youzou.service.imp;
 
 import com.youzou.domain.Guest;
 import com.youzou.mapper.GuestDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.youzou.service.GusetService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,8 +12,13 @@ import javax.annotation.Resource;
  */
 @Service
 public class GuestServiceImp implements GusetService {
-
+    @Resource
     private GuestDao guestDao;
+
+    @Override
+    public boolean register(Guest guest) {
+        return guestDao.register(guest);
+    }
 
     @Override
     public Guest login(Guest guest) {

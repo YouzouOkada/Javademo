@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzou.mapper.GuestDao">
+    <insert id="register">
+        INSERT INTO T_GUEST (GU_PHONE, GU_PASS) VALUES (#{guPhone},#{guPass})
+    </insert>
+    <select id="login" resultMap="guest">
+        SELECT * FROM T_GUEST WHERE GU_PHONE=#{guPhone} AND GU_PASS=#{guPass}
+    </select>
+    <resultMap id="guest" type="com.youzou.domain.Guest">
+        <id property="guId" column="gu_id"/>
+        <result property="guPhone" column="gu_phone"/>
+        <result property="guPass" column="gu_pass"/>
+        <association property="resume" column="gu_id" javaType="com.youzou.domain.Resume" select="com.youzou.mapper.ResumeDao.queryByGuId"></association>
+    </resultMap>
+</mapper>
