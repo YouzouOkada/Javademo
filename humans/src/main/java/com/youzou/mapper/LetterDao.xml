@@ -9,4 +9,7 @@
         <result property="letCon" column="let_con"/>
         <result property="letDate" column="let_date"/>
     </resultMap>
+    <select id="queryLetters" parameterType="java.util.Map" resultType="com.youzou.domain.Letter">
+        SELECT * FROM T_LETTER WHERE LET_TYPE=#{letType} AND  LET_REC_ID=#{letRecId}
+    </select>
 </mapper>

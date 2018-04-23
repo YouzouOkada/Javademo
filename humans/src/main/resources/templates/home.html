@@ -31,7 +31,18 @@
         l
     </aside>
     <article>
-        a
+        <table border="1">
+            <thead>
+                <th>内容</th><th>日期</th><th>状态</th>
+            </thead>
+            <tbody>
+                <tr th:each="letter:${session.employee?.letters}">
+                    <td th:text="${letter?.letCon}"/>
+                    <td th:text="${letter?.letDate}"/>
+                    <td th:text="${letter?.letStat}"/>
+                </tr>
+            </tbody>
+        </table>
     </article>
     <footer>
 

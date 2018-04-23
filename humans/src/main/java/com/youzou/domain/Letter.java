@@ -22,7 +22,6 @@ public class Letter implements Serializable {
     }
 
     public long getLetId() {
-
         return letId;
     }
 

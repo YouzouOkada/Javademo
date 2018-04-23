@@ -12,5 +12,7 @@
         <result property="guPhone" column="gu_phone"/>
         <result property="guPass" column="gu_pass"/>
         <association property="resume" column="gu_id" javaType="com.youzou.domain.Resume" select="com.youzou.mapper.ResumeDao.queryByGuId"></association>
+        <collection property="letter" ofType="com.youzou.domain.Letter" resultMap="com.youzou.mapper.LetterDao.letter"
+                    column="{letType=2,letRecId=gu_id}" select="com.youzou.mapper.LetterDao.queryLetters"/>
     </resultMap>
 </mapper>

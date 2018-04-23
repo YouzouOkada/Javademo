@@ -12,6 +12,7 @@ public class Guest implements Serializable{
     private String guPhone;//游客手机号 注册时添加正则判断 ^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0-9])|(18[0-9]))\\d{8}$
     private String guPass;//游客密码
     private Resume resume;//简历
+    private Letter letter;//消息
 
     public Guest() {
     }
@@ -26,7 +27,6 @@ public class Guest implements Serializable{
     }
 
     public long getGuId() {
-
         return guId;
     }
 
@@ -56,6 +56,14 @@ public class Guest implements Serializable{
 
     public void setResume(Resume resume) {
         this.resume = resume;
+    }
+
+    public Letter getLetter() {
+        return letter;
+    }
+
+    public void setLetter(Letter letter) {
+        this.letter = letter;
     }
 
     @Override

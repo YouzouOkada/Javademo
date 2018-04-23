@@ -11,6 +11,7 @@ public class Manager implements Serializable{
     private long manId;//管理员编号
     private String manAccount;//账号 不得超过10位
     private String manPass;//密码
+    private Letter letter;//消息
 
     public Manager() {
     }
@@ -24,7 +25,7 @@ public class Manager implements Serializable{
         return manId;
     }
 
-    public void setManId(Long manId) {
+    public void setManId(long manId) {
         this.manId = manId;
     }
 
@@ -42,6 +43,14 @@ public class Manager implements Serializable{
 
     public void setManPass(String manPass) {
         this.manPass = manPass;
+    }
+
+    public Letter getLetter() {
+        return letter;
+    }
+
+    public void setLetter(Letter letter) {
+        this.letter = letter;
     }
 
     @Override

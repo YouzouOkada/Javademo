@@ -7,9 +7,6 @@
     <script th:inline="javascript">
         $(function () {
         });
-        function createPosi() {
-
-        }
     </script>
 </head>
 <body>
@@ -31,7 +28,7 @@
     <article>
         <form action="addrecruit" method="post">
             <p>
-                招聘职位：<select name="recPosiId" ID="posiId"></select>
+                招聘职位：<select name="recPosiName" ID="posiName"></select>
             </p>
             <p>
                 薪资：<input type="number" min="3000" step="500"/>
@@ -43,7 +40,7 @@
                 招聘人数：<input type="number" name="recNum" min="1"/>
             </p>
             <p>
-                招聘条件：<textarea name="recReq"></textarea>
+                招聘条件：<input name="recReq"/>
             </p>
             <p>
                 <button type="submit">发布</button>

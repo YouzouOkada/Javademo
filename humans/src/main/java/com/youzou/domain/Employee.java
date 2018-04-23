@@ -16,6 +16,7 @@ public class Employee implements Serializable {
     private String empPass;//密码 同游客密码
     private String empPhone;//手机号 简历中手机号
     private int empAttend;//出勤天数
+    private Letter letter;//消息
 
     public Employee() {
     }
@@ -87,6 +88,14 @@ public class Employee implements Serializable {
 
     public void setEmpAttend(int empAttend) {
         this.empAttend = empAttend;
+    }
+
+    public Letter getLetter() {
+        return letter;
+    }
+
+    public void setLetter(Letter letter) {
+        this.letter = letter;
     }
 
     @Override
