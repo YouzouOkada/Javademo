@@ -4,7 +4,11 @@
     <resultMap id="interview" type="com.youzou.domain.Interview">
         <id property="inteId" column="inte_id"/>
         <result property="inteGuId" column="inte_gu_id"/>
-        <result property="inteEmpId" column="inte_emp_id"/>
         <result property="inteDate" column="inte_date"/>
+        <result property="inteLoc" column="inte_loc"/>
     </resultMap>
+    <insert id="addInterview">
+        INSERT INTO T_INTERVIEW(INTE_GU_ID, INTE_DATE, INTE_LOC)
+        VALUES (#{inteGuId},#{inteDate},#{inteLoc})
+    </insert>
 </mapper>

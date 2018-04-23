@@ -9,7 +9,16 @@
         <result property="letCon" column="let_con"/>
         <result property="letDate" column="let_date"/>
     </resultMap>
-    <select id="queryLetters" parameterType="java.util.Map" resultType="com.youzou.domain.Letter">
+    <select id="queryLetters" parameterType="Map" resultMap="letter">
         SELECT * FROM T_LETTER WHERE LET_TYPE=#{letType} AND  LET_REC_ID=#{letRecId}
+    </select>
+    <select id="queryManagerLetters" resultMap="letter">
+        SELECT * FROM T_LETTER WHERE LET_TYPE=0 AND  LET_REC_ID=#{letRecId}
+    </select>
+    <select id="queryEmployeeLetters" resultMap="letter">
+        SELECT * FROM T_LETTER WHERE LET_TYPE=1 AND  LET_REC_ID=#{letRecId}
+    </select>
+    <select id="queryGuestLetters" resultMap="letter">
+        SELECT * FROM T_LETTER WHERE LET_TYPE=2 AND  LET_REC_ID=#{letRecId}
     </select>
 </mapper>

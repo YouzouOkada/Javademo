@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <title>管理员</title>
@@ -13,16 +13,29 @@ h
     <nav>
         <ul>
             <li>
-                <a href="pages?page=recruitManage">添加招聘信息</a>
+                <a href="recruit/recruitManage">添加招聘信息</a>
             </li>
-
+            <li>
+                <a href="recruit/postedResume">查看应聘信息</a>
+            </li>
         </ul>
     </nav>
     <aside>
 l
     </aside>
     <article>
-a
+        <table border="1">
+            <thead>
+            <th>内容</th><th>日期</th><th>状态</th>
+            </thead>
+            <tbody>
+            <tr th:each="letter:${session.manager?.letters}">
+                <td th:text="${letter?.letCon}"/>
+                <td th:text="${letter?.letDate}"/>
+                <td th:text="${letter?.letStat}"/>
+            </tr>
+            </tbody>
+        </table>
     </article>
     <footer>
 

@@ -20,4 +20,9 @@ public class RecruitServiceImp implements RecruitService {
     public List<Recruit> queryAll() {
         return recruitDao.queryAll();
     }
+
+    @Override
+    public boolean addRecruit(Recruit recruit) {
+        return recruitDao.addRecruit(recruit);
+    }
 }

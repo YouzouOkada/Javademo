@@ -14,18 +14,28 @@
         n
     </nav>
     <article>
-        <table border="1">
-            <thead>
-                <th>招聘职位</th><th>招聘薪资</th><th>工作待遇</th><th>招聘人数</th><th>招聘条件</th>
-            </thead>
-            <tr th:each="recruit:${recruits}">
-                <td th:text="${recruit?.recPosiName}"></td>
-                <td th:text="${recruit?.recSal}"></td>
-                <td th:text="${recruit?.recDeal}"></td>
-                <td th:text="${recruit?.recNum}"></td>
-                <td th:text="${recruit?.recReq}"></td>
-            </tr>
-        </table>
+            <table border="1">
+                <thead>
+                <th>招聘职位</th><th>招聘薪资</th><th>工作待遇</th><th>招聘人数</th><th>招聘条件</th><th>投递简历</th>
+                </thead>
+                <tbody>
+                <tr th:each="recruit:${recruits}">
+                    <td th:text="${recruit?.recPosiName}"></td>
+                    <td th:text="${recruit?.recSal}"></td>
+                    <td th:text="${recruit?.recDeal}"></td>
+                    <td th:text="${recruit?.recNum}"></td>
+                    <td th:text="${recruit?.recReq}"></td>
+                    <td>
+                        <form action="../resume/postResume" method="post">
+                            <input type="hidden" value="${recruit?.recId}"/>
+                            <input type="hidden" value="${session.guest?.resume?.resId}"/>
+                            <input type="hidden" value="${session.employee?.resume?.resId}"/>
+                            <input type="submit" value="投递简历"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
     </article>
     <footer>
 

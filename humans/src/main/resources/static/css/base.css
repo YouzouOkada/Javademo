@@ -14,7 +14,7 @@ header{
     margin: 0;
     padding: 0;
     height: 150px;
-    background-color: orange;
+    background:red no-repeat fixed;
 }
 nav{
     margin: 0;

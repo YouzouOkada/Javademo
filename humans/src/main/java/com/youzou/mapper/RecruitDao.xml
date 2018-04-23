@@ -9,6 +9,10 @@
         <result property="recNum" column="rec_num"/>
         <result property="recReq" column="rec_req"/>
     </resultMap>
+    <insert id="addRecruit">
+        INSERT INTO T_RECRUIT (REC_POSI_NAME, REC_SAL, REC_DEAL, REC_NUM, REC_REQ)
+         VALUES (#{recPosiName},#{recSal},#{recDeal},#{recNum},#{recReq})
+    </insert>
     <select id="queryAll" resultMap="recurit">
         SELECT * FROM T_RECRUIT
     </select>

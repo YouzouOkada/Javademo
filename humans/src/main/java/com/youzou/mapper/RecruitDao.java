@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface RecruitDao {
     List<Recruit> queryAll();
+
+    boolean addRecruit(Recruit recruit);
 }

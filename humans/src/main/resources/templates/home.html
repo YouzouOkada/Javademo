@@ -8,16 +8,16 @@
 <body>
 <div id="container">
     <header>
-        <p th:text="${guest?.guPhone}"></p>
-        <p th:text="${employee?.empPhone}"></p>
+        <p th:text="${session.guest?.guPhone}"></p>
+        <p th:text="${session.employee?.empPhone}"></p>
     </header>
     <nav class="clear">
         <ul>
             <li>
-                <a href="recruitView">招聘信息</a>
+                <a href="../recruit/recruitView">招聘信息</a>
             </li>
             <li>
-                <a href="resumeView">编写简历</a>
+                <a th:href="@{../resume/resumeView}">编写简历</a>
             </li>
             <li>
                 <a href="">消息列表</a>
@@ -31,12 +31,23 @@
         l
     </aside>
     <article>
+        <div>
+            <h3>我的消息</h3>
+            <div>
+
+            </div>
+        </div>
         <table border="1">
             <thead>
                 <th>内容</th><th>日期</th><th>状态</th>
             </thead>
             <tbody>
                 <tr th:each="letter:${session.employee?.letters}">
+                    <td th:text="${letter?.letCon}"/>
+                    <td th:text="${letter?.letDate}"/>
+                    <td th:text="${letter?.letStat}"/>
+                </tr>
+                <tr th:if="${session.employee==null}" th:each="letter:${session.guest?.letters}">
                     <td th:text="${letter?.letCon}"/>
                     <td th:text="${letter?.letDate}"/>
                     <td th:text="${letter?.letStat}"/>

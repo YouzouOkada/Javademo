@@ -8,7 +8,7 @@
         <id property="manId" column="man_id"/>
         <result property="manAccount" column="man_account"/>
         <result property="manPass" column="man_pass"/>
-        <collection property="letter" column="{letType=0,letRecId=man_id}" resultMap="com.youzou.mapper.LetterDao.letter"
-                    select="com.youzou.mapper.LetterDao.queryLetters" ofType="com.youzou.domain.Letter"/>
+        <collection property="letters" column="man_id"
+                   ofType="com.youzou.domain.Letter" select="com.youzou.mapper.LetterDao.queryManagerLetters" />
     </resultMap>
 </mapper>

@@ -13,7 +13,7 @@
         <result property="empPass" column="emp_pass"/>
         <result property="empPhone" column="emp_phone"/>
         <result property="empAttend" column="emp_attend"/>
-        <collection property="letter"ofType="com.youzou.domain.Letter" resultMap="com.youzou.mapper.LetterDao.letter"
-                    select="com.youzou.mapper.LetterDao.queryLetters" column="{letType=2,letRecId=emp_id}"/>
+        <collection property="letters" ofType="com.youzou.domain.Letter"
+                    select="com.youzou.mapper.LetterDao.queryEmployeeLetters" column="emp_id"/>
     </resultMap>
 </mapper>

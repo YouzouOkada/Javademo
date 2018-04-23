@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="UTF-8"/>
+    <title>管理招聘信息</title>
+    <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+    <script type="text/javascript" src="jquery-3.1.0.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+        });
+    </script>
+</head>
+<body>
+<div id="container">
+    <header>
+        h
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="recruit/recruitManage">添加招聘信息</a>
+            </li>
+
+        </ul>
+    </nav>
+    <aside>
+        l
+    </aside>
+    <article>
+        <table border="1">
+            <thead>
+            <th>招聘职位</th><th>招聘薪资</th><th>工作待遇</th><th>招聘人数</th><th>招聘条件</th><th>投递简历</th>
+            </thead>
+            <tbody>
+            <tr th:each="recruit:${recruits}">
+                <td th:text="${recruit?.recPosiName}"></td>
+                <td th:text="${recruit?.recSal}"></td>
+                <td th:text="${recruit?.recDeal}"></td>
+                <td th:text="${recruit?.recNum}"></td>
+                <td th:text="${recruit?.recReq}"></td>
+                <td>
+                    <form action="recruit/delRecruit" method="post">
+                        <input type="hidden" value="${recruit?.recId}"/>
+                        <input type="submit" value="删除"/>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <form action="addRecruit" method="post">
+            <p>
+                招聘职位：<select name="recPosiName" ID="posiName">
+                <option th:each="position:${positions}" th:value="${position?.posiName}" th:text="${position?.posiName}"/>
+            </select>
+            </p>
+            <p>
+                薪资：<input type="number" min="3000" step="500"/>
+            </p>
+            <p>
+                待遇：<input name="recDeal"/>
+            </p>
+            <p>
+                招聘人数：<input type="number" name="recNum" min="1"/>
+            </p>
+            <p>
+                招聘条件：<input name="recReq"/>
+            </p>
+            <p>
+                <button type="submit">发布</button>
+            </p>
+            <p th:text="${success}"></p>
+        </form>
+    </article>
+    <footer>
+
+    </footer>
+</div>
+</body>
+</html>

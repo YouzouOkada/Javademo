@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
  * Created by 葉蔵 on 2018/4/19.
  */
 @Controller
+@RequestMapping("/people")
 public class PeopleController {
     @Autowired
     private GusetService gusetService;
@@ -36,7 +37,6 @@ public class PeopleController {
      */
     @RequestMapping("/login")
     public String login(String acc, String pass,HttpSession session){
-        System.out.println("login");
         Manager manager=managerService.login(new Manager(acc,pass));
         if (manager!=null){
             session.setAttribute("manager",manager);
@@ -61,7 +61,7 @@ public class PeopleController {
      * @return
      */
     @RequestMapping("/register")
-    public String register(Guest guest,Model model){
+    public String register(Guest guest,Model model,HttpSession session){
         String phone=guest.getGuPhone();
         if(!phone.matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0-9])|(18[0-9]))\\d{8}$")){
             model.addAttribute("phonefailed","请输入正确的手机号");
@@ -78,8 +78,7 @@ public class PeopleController {
             model.addAttribute("failed","注册失败");
             return "register";
         }
-        Guest guest1=gusetService.login(guest);
-        model.addAttribute("guest",guest1);
+        login(guest.getGuPhone(),guest.getGuPass(),session);
         return "home";
 
     }

@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface RecruitService {
     List<Recruit> queryAll();
+
+    boolean addRecruit(Recruit recruit);
 }

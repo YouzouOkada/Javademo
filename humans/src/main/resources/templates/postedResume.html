@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>投递的简历</title>
+    <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+</head>
+<body>
+<div id="container">
+    <header>
+        h
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="recruit/recruitManage">添加招聘信息</a>
+            </li>
+            <li>
+                <a href="recruit/postedResume">查看应聘信息</a>
+            </li>
+        </ul>
+    </nav>
+    <aside>
+        l
+    </aside>
+    <article>
+        <div th:each="resume:${resumes}">
+            姓名：<span th:text="${resume?.resName}"></span><br>
+            性别：<span th:if="${resume?.resGend==0}" th:text="男"></span><span th:if="${resume?.resGend==1}" th:text="女"></span><br>
+            籍贯：<span th:text="${resume?.resLoc}"></span><br>
+            出生日期：<span th:text="${resume?.resBirth}"></span><br>
+            手机号码：<span th:text="${resume?.resPhone}"></span><br>
+            电子邮箱：<span th:text="${resume?.resEmail}"></span><br>
+            学历：<span th:text="${resume?.resEdu}"></span><br>
+            工作经验：<span th:text="${resume?.resExp}"></span>年<br>
+            自我简介：<div th:text="${resume?.resName}"></div><br>
+            <form action="interview/addInterview" method="post">
+                <input type="hidden" value="${resume?.resGuId}" name="inteGuId"/>
+                <input type="hidden" value="${resume?.resId}"/>
+                <input type="submit" value="发送面试邀请"/>
+            </form>
+            <form action="interview/cancelInterview" method="post">
+                <input type="hidden" value="${resume?.resId}"/>
+                <input type="submit" value="不发送邀请"/>
+            </form>
+        </div>
+    </article>
+    <footer>
+
+    </footer>
+</div>
+</body>
+</html>

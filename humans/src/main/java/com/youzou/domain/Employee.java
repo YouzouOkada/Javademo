@@ -2,6 +2,7 @@ package com.youzou.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by 葉蔵 on 2018/4/20.
@@ -16,7 +17,8 @@ public class Employee implements Serializable {
     private String empPass;//密码 同游客密码
     private String empPhone;//手机号 简历中手机号
     private int empAttend;//出勤天数
-    private Letter letter;//消息
+    private Guest guest;//原始游客信息
+    private List<Letter> letters;//消息
 
     public Employee() {
     }
@@ -90,12 +92,20 @@ public class Employee implements Serializable {
         this.empAttend = empAttend;
     }
 
-    public Letter getLetter() {
-        return letter;
+    public List<Letter> getLetters() {
+        return letters;
     }
 
-    public void setLetter(Letter letter) {
-        this.letter = letter;
+    public void setLetters(List<Letter> letters) {
+        this.letters = letters;
+    }
+
+    public Guest getGuest() {
+        return guest;
+    }
+
+    public void setGuest(Guest guest) {
+        this.guest = guest;
     }
 
     @Override

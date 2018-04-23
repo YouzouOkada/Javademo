@@ -17,6 +17,10 @@ public class Recruit implements Serializable {
     public Recruit() {
     }
 
+    public Recruit(long recId) {
+        this.recId = recId;
+    }
+
     public long getRecId() {
 
         return recId;
