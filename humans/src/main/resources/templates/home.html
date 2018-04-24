@@ -14,13 +14,16 @@
     <nav class="clear">
         <ul>
             <li>
-                <a href="../recruit/recruitView">招聘信息</a>
+                <a th:href="@{../recruit/recruitView.do}">招聘信息</a>
             </li>
             <li>
-                <a th:href="@{../resume/resumeView}">编写简历</a>
+                <a th:href="@{../resume/resumeView.do}">编写简历</a>
             </li>
             <li>
                 <a href="">消息列表</a>
+            </li>
+            <li>
+                <a th:href="@{../interview/interviewSearch.do}">面试信息</a>
             </li>
             <li>
                 <a href="">个人信息</a>
@@ -39,18 +42,16 @@
         </div>
         <table border="1">
             <thead>
-                <th>内容</th><th>日期</th><th>状态</th>
+                <th>内容</th><th>日期</th>
             </thead>
             <tbody>
                 <tr th:each="letter:${session.employee?.letters}">
                     <td th:text="${letter?.letCon}"/>
-                    <td th:text="${letter?.letDate}"/>
-                    <td th:text="${letter?.letStat}"/>
+                    <td th:text="${#dates.format(letter?.letDate, 'yyyy-MM-dd')}"/>
                 </tr>
                 <tr th:if="${session.employee==null}" th:each="letter:${session.guest?.letters}">
                     <td th:text="${letter?.letCon}"/>
-                    <td th:text="${letter?.letDate}"/>
-                    <td th:text="${letter?.letStat}"/>
+                    <td th:text="${#dates.format(letter?.letDate, 'yyyy-MM-dd')}"/>
                 </tr>
             </tbody>
         </table>

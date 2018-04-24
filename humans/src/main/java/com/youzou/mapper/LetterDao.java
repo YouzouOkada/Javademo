@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface LetterDao {
     List<Letter> queryLetters(int letType,long letRecId);
+
+    boolean addLetter(Letter letter);
 }

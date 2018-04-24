@@ -2,6 +2,7 @@ package com.youzou.controller;
 
 import com.youzou.domain.Position;
 import com.youzou.domain.Recruit;
+import com.youzou.domain.ResRecRel;
 import com.youzou.domain.Resume;
 import com.youzou.service.PositionService;
 import com.youzou.service.RecruitService;
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by 葉蔵 on 2018/4/21.
@@ -31,7 +35,7 @@ public class RecruitController {
      * @param model
      * @return
      */
-    @RequestMapping("recruitView")
+    @RequestMapping("recruitView.do")
     public String recuritView(Model model){
         List<Recruit> recruits= recruitService.queryAll();
         model.addAttribute("recruits",recruits);
@@ -43,7 +47,7 @@ public class RecruitController {
      * @param model
      * @return
      */
-    @RequestMapping("recruitManage")
+    @RequestMapping("recruitManage.do")
     public String recruitManage(Model model){
         List<Position> positions=positionService.queryAll();
         model.addAttribute("positions",positions);
@@ -51,7 +55,7 @@ public class RecruitController {
         return "manageRecruit";
     }
 
-    @RequestMapping("delRecruit")
+    @RequestMapping("delRecruit.do")
     public String delRecruit(Recruit recruit,Model model){
 
         return "manageRecruit";
@@ -62,17 +66,30 @@ public class RecruitController {
      * @param model
      * @return
      */
-    @RequestMapping("addRecruit")
+    @RequestMapping("addRecruit.do")
     public String addRecruit(Recruit recruit,Model model){
         recruitService.addRecruit(recruit);
         model.addAttribute("success","发布成功");
         return "manageRecruit";
     }
-    @RequestMapping("/postedResume")
+
+    /**
+     * 查看应聘信息
+     * @param model
+     * @return
+     */
+    @RequestMapping("/postedResume.do")
     public String postedResume(Model model){
-        List<Resume> resumes=resRecRelService.queryResumes();
-        List<Recruit> recruits;
-        model.addAttribute("resumes",resumes);
-        return "";
+       /*List<Recruit> recruits=resRecRelService.queryRecruits();
+        Map<Recruit,List<Resume>> resRecRelMap=new HashMap<>();
+       for (Recruit recruit:recruits){
+           List<Resume> resumes=resRecRelService.queryByRecId(recruit);
+           resRecRelMap.put(recruit,resumes);
+       }
+       model.addAttribute("recruits",recruits);
+       model.addAttribute("relMap",resRecRelMap);*/
+       List<Resume> resumes=resRecRelService.queryResumes();
+       model.addAttribute("resumes",resumes);
+        return "postedResume";
     }
 }

@@ -26,16 +26,17 @@
                     <td th:text="${recruit?.recNum}"></td>
                     <td th:text="${recruit?.recReq}"></td>
                     <td>
-                        <form action="../resume/postResume" method="post">
-                            <input type="hidden" value="${recruit?.recId}"/>
-                            <input type="hidden" value="${session.guest?.resume?.resId}"/>
-                            <input type="hidden" value="${session.employee?.resume?.resId}"/>
-                            <input type="submit" value="投递简历"/>
+                        <form action="../resume/postResume.do" method="post">
+                            <input type="hidden" th:name="recId" th:value="${recruit?.recId}"/>
+                            <input type="hidden" th:name="resId" th:if="${session.employee==null}" th:value="${session.guest?.resume?.resId}"/>
+                            <input type="hidden" th:name="resId" th:if="${session.employee!=null}" th:value="${session.employee?.resume?.resId}"/>
+                            <input  type="submit" value="投递简历"/>
                         </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <p th:text="${result}"></p>
     </article>
     <footer>
 

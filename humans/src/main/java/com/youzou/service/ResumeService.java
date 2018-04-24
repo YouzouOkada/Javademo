@@ -7,7 +7,7 @@ import com.youzou.domain.Resume;
  * Created by 葉蔵 on 2018/4/20.
  */
 public interface ResumeService {
-    Resume queryByGuId(Guest guest);
+    Resume queryByGuId(long guId);
 
     boolean updateResume(Resume resume);
 

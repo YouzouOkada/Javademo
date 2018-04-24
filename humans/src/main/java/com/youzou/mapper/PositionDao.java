@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface PositionDao {
     List<Position> queryAll();
+
+    List<Position> queryByDeptId(long deptId);
 }

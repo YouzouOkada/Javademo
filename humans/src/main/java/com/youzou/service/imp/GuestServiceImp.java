@@ -21,6 +21,11 @@ public class GuestServiceImp implements GusetService {
     }
 
     @Override
+    public Guest queryByGuId(long guId) {
+        return guestDao.queryByGuId(guId);
+    }
+
+    @Override
     public Guest login(Guest guest) {
         return guestDao.login(guest);
     }

@@ -1,11 +1,7 @@
 package com.youzou.controller;
 
-import com.youzou.domain.Employee;
-import com.youzou.domain.Guest;
-import com.youzou.domain.Manager;
-import com.youzou.service.EmployeeService;
-import com.youzou.service.GusetService;
-import com.youzou.service.ManagerService;
+import com.youzou.domain.*;
+import com.youzou.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -14,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 葉蔵 on 2018/4/19.
@@ -27,6 +25,14 @@ public class PeopleController {
     private EmployeeService employeeService;
     @Autowired
     private ManagerService managerService;
+    @Autowired
+    private InterviewService interviewService;
+    @Autowired
+    private DepartmentService departmentService;
+    @Autowired
+    private PositionService positionService;
+    @Autowired
+    private ResumeService resumeService;
 
     /**
      * 登录 （三合一）
@@ -35,9 +41,12 @@ public class PeopleController {
      * @param session
      * @return
      */
-    @RequestMapping("/login")
+    @RequestMapping("/login.do")
     public String login(String acc, String pass,HttpSession session){
         Manager manager=managerService.login(new Manager(acc,pass));
+        session.removeAttribute("manager");
+        session.removeAttribute("employee");
+        session.removeAttribute("guest");
         if (manager!=null){
             session.setAttribute("manager",manager);
             return "manager";
@@ -60,7 +69,7 @@ public class PeopleController {
      * @param model
      * @return
      */
-    @RequestMapping("/register")
+    @RequestMapping("/register.do")
     public String register(Guest guest,Model model,HttpSession session){
         String phone=guest.getGuPhone();
         if(!phone.matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0-9])|(18[0-9]))\\d{8}$")){
@@ -80,6 +89,24 @@ public class PeopleController {
         }
         login(guest.getGuPhone(),guest.getGuPass(),session);
         return "home";
+
+    }
+    @RequestMapping("/addEmployee.do")
+    public String addEmployee(Employee employee,Model model){
+        System.out.println(employee);
+
+        /*List<Interview> interviews=interviewService.queryEnsured();
+        List<Resume> resumes=new ArrayList<>();
+        for (Interview interview:interviews){
+            Resume resume=resumeService.queryByGuId(interview.getInteGuId());
+            resumes.add(resume);
+        }
+        model.addAttribute("resumes",resumes);
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        List<Position> positions=positionService.queryByDeptId(1);
+        model.addAttribute("positions",positions);*/
+        return "manageInterview";
 
     }
 }

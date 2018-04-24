@@ -13,10 +13,16 @@
     <nav>
         <ul>
             <li>
-                <a href="recruit/recruitManage">添加招聘信息</a>
+                <a href="../pages.do?page=manager">首页</a>
             </li>
             <li>
-                <a href="recruit/postedResume">查看应聘信息</a>
+                <a href="../recruit/recruitManage.do">添加招聘信息</a>
+            </li>
+            <li>
+                <a href="../recruit/postedResume.do">查看应聘信息</a>
+            </li>
+            <li>
+                <a href="../interview/manageInterview.do">面试筛选</a>
             </li>
         </ul>
     </nav>
@@ -24,26 +30,53 @@
         l
     </aside>
     <article>
+        <!--<div th:each="recruit:${recruits}">
+            <p th:text="${recruit?.recPosiName}"></p>
+            <div th:text="${relMap[recruit]}"></div>
+            <div th:each="resume:${relMap[recruit]}">
+                姓名：<span th:text="${resume?.resName}"></span><br>
+                性别：<span th:if="${resume?.resGend==0}" th:text="男"></span><span th:if="${resume?.resGend==1}" th:text="女"></span><br>
+                籍贯：<span th:text="${resume?.resLoc}"></span><br>
+                出生日期：<span th:text="${resume?.resBirth}"></span><br>
+                手机号码：<span th:text="${resume?.resPhone}"></span><br>
+                电子邮箱：<span th:text="${resume?.resEmail}"></span><br>
+                学历：<span th:text="${resume?.resEdu}"></span><br>
+                工作经验：<span th:text="${resume?.resExp}"></span>年<br>
+                自我简介：<div th:text="${resume?.resName}"></div><br>
+                <form action="interview/addInterview.do" method="post">
+                    <input type="hidden" value="${resume?.resGuId}" name="inteGuId"/>
+                    <input type="hidden" value="${resume?.resId}"/>
+                    <input type="hidden" value="${recruit?.recId}"/>
+                    <input type="submit" value="发送面试邀请"/>
+                </form>
+                <form action="interview/cancelInterview.do" method="post">
+                    <input type="hidden" value="${resume?.resId}"/>
+                    <input type="hidden" value="${recruit?.recId}"/>
+                    <input type="submit" value="不发送邀请"/>
+                </form>
+            </div>
+        </div>-->
         <div th:each="resume:${resumes}">
             姓名：<span th:text="${resume?.resName}"></span><br>
             性别：<span th:if="${resume?.resGend==0}" th:text="男"></span><span th:if="${resume?.resGend==1}" th:text="女"></span><br>
             籍贯：<span th:text="${resume?.resLoc}"></span><br>
-            出生日期：<span th:text="${resume?.resBirth}"></span><br>
+            出生日期：<span th:text="${#dates.format(resume?.resBirth, 'yyyy-MM-dd')}"></span><br>
             手机号码：<span th:text="${resume?.resPhone}"></span><br>
             电子邮箱：<span th:text="${resume?.resEmail}"></span><br>
             学历：<span th:text="${resume?.resEdu}"></span><br>
             工作经验：<span th:text="${resume?.resExp}"></span>年<br>
             自我简介：<div th:text="${resume?.resName}"></div><br>
-            <form action="interview/addInterview" method="post">
-                <input type="hidden" value="${resume?.resGuId}" name="inteGuId"/>
-                <input type="hidden" value="${resume?.resId}"/>
+            <form action="../interview/addInterview.do" method="post">
+                <input type="hidden" th:value="${resume?.resGuId}" name="inteGuId"/>
+                <input type="hidden" th:value="${resume?.resId}" name="resId"/>
                 <input type="submit" value="发送面试邀请"/>
             </form>
-            <form action="interview/cancelInterview" method="post">
-                <input type="hidden" value="${resume?.resId}"/>
+            <form action="../interview/cancelInterview.do" method="post">
+                <input type="hidden" th:value="${resume?.resId}" name="resId"/>
                 <input type="submit" value="不发送邀请"/>
             </form>
         </div>
+        <p th:text="${result}"></p>
     </article>
     <footer>
 

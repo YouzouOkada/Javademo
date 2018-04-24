@@ -23,4 +23,9 @@ public class LetterServiceImp implements LetterService{
     public List<Letter> queryLetters(int letType,long letRecId) {
         return letterDao.queryLetters(letType,letRecId);
     }
+
+    @Override
+    public boolean addLetter(Letter letter) {
+        return letterDao.addLetter(letter);
+    }
 }

@@ -10,4 +10,6 @@ public interface GuestDao {
     Guest login(Guest guest);
 
     boolean register(Guest guest);
+
+    Guest queryByGuId(long guId);
 }

@@ -20,4 +20,9 @@ public class PositionServiceImp implements PositionService {
     public List<Position> queryAll() {
         return positionDao.queryAll();
     }
+
+    @Override
+    public List<Position> queryByDeptId(long deptId) {
+        return positionDao.queryByDeptId(deptId);
+    }
 }

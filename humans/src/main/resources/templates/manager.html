@@ -13,10 +13,16 @@ h
     <nav>
         <ul>
             <li>
-                <a href="recruit/recruitManage">添加招聘信息</a>
+                <a href="../pages.do?page=manager">首页</a>
             </li>
             <li>
-                <a href="recruit/postedResume">查看应聘信息</a>
+                <a href="recruit/recruitManage.do">添加招聘信息</a>
+            </li>
+            <li>
+                <a href="../recruit/postedResume.do">查看应聘信息</a>
+            </li>
+            <li>
+                <a href="../interview/manageInterview.do">面试筛选</a>
             </li>
         </ul>
     </nav>
@@ -26,13 +32,12 @@ l
     <article>
         <table border="1">
             <thead>
-            <th>内容</th><th>日期</th><th>状态</th>
+            <th>内容</th><th>收信日期</th>
             </thead>
             <tbody>
             <tr th:each="letter:${session.manager?.letters}">
                 <td th:text="${letter?.letCon}"/>
-                <td th:text="${letter?.letDate}"/>
-                <td th:text="${letter?.letStat}"/>
+                <td th:text="${#dates.format(letter?.letDate, 'yyyy-MM-dd')}"/>
             </tr>
             </tbody>
         </table>

@@ -28,7 +28,7 @@ public class ResumeServiceImp implements ResumeService {
     }
 
     @Override
-    public Resume queryByGuId(Guest guest) {
-        return resumeDao.queryByGuId(guest);
+    public Resume queryByGuId(long guId) {
+        return resumeDao.queryByGuId(guId);
     }
 }

@@ -14,7 +14,7 @@ public class Interview implements Serializable {
     private long inteGuId;//游客编号
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date inteDate;//面试日期
-    private String inteLoc;//面试地点
+    private int inteStat;//面试状态 0:未参加 1：确认参加
 
     public Interview() {
     }
@@ -44,12 +44,12 @@ public class Interview implements Serializable {
         this.inteDate = inteDate;
     }
 
-    public String getInteLoc() {
-        return inteLoc;
+    public int getInteStat() {
+        return inteStat;
     }
 
-    public void setInteLoc(String inteLoc) {
-        this.inteLoc = inteLoc;
+    public void setInteStat(int inteStat) {
+        this.inteStat = inteStat;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class Interview implements Serializable {
                 "inteId=" + inteId +
                 ", inteGuId=" + inteGuId +
                 ", inteDate=" + inteDate +
-                ", inteLoc='" + inteLoc + '\'' +
+                ", inteStat=" + inteStat +
                 '}';
     }
 }

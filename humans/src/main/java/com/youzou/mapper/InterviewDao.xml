@@ -5,10 +5,22 @@
         <id property="inteId" column="inte_id"/>
         <result property="inteGuId" column="inte_gu_id"/>
         <result property="inteDate" column="inte_date"/>
-        <result property="inteLoc" column="inte_loc"/>
+        <result property="inteStat" column="inte_stat"/>
     </resultMap>
     <insert id="addInterview">
-        INSERT INTO T_INTERVIEW(INTE_GU_ID, INTE_DATE, INTE_LOC)
-        VALUES (#{inteGuId},#{inteDate},#{inteLoc})
+        INSERT INTO T_INTERVIEW(INTE_GU_ID, INTE_DATE)
+        VALUES (#{inteGuId},#{inteDate})
     </insert>
+    <update id="ensureInterview">
+        UPDATE T_INTERVIEW SET INTE_STAT=1 WHERE INTE_GU_ID=#{guId}
+    </update>
+    <delete id="refuseInterview">
+        DELETE FROM T_INTERVIEW WHERE INTE_GU_ID=#{guId}
+    </delete>
+    <select id="queryByGuId" resultMap="interview">
+        SELECT * FROM T_INTERVIEW WHERE INTE_GU_ID=#{guId}
+    </select>
+    <select id="queryEnsured" resultMap="interview">
+        SELECT * FROM T_INTERVIEW WHERE INTE_STAT=1
+    </select>
 </mapper>

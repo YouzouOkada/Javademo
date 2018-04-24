@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>我的面试信息</title>
+
+</head>
+<body>
+<div>
+    面试时间：<span th:text="${#dates.format(interview?.inteDate, 'yyyy年MM月dd日')}"></span>
+    <form action="ensureInterview.do" method="post">
+        <input type="submit" value="参加"/>
+    </form>
+    <form action="refuseInterview.do" method="post">
+        <input type="submit" value="不参加"/>
+    </form>
+    <div th:text="${result}"></div>
+</div>
+</body>
+</html>

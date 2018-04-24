@@ -1,6 +1,7 @@
 package com.youzou.mapper;
 
 import com.youzou.domain.Recruit;
+import com.youzou.domain.ResRecRel;
 import com.youzou.domain.Resume;
 
 import java.util.List;
@@ -11,8 +12,15 @@ import java.util.List;
 public interface ResRecRelDao {
     List<Resume> queryResumes();
 
-    boolean addResRec(Resume resume, Recruit recruit);
+    boolean addResRec(long resume, long recruit);
 
     boolean delResRec(Resume resume);
 
+    ResRecRel queryByIds(long resId, long recId);
+
+    List<ResRecRel> queryAll();
+
+    List<Recruit> queryRecruits();
+
+    List<Resume> queryByRecId(Recruit recruit);
 }

@@ -6,4 +6,7 @@
         <result property="deptName" column="dept_name"/>
         <result property="deptCreDate" column="dept_cre_date"/>
     </resultMap>
+    <select id="queryAll" resultMap="department">
+        SELECT * FROM T_DEPARTMENT
+    </select>
 </mapper>

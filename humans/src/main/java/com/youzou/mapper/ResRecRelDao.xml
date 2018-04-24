@@ -7,13 +7,26 @@
         <result property="rrrRecId" column="rrr_rec_id"/>
     </resultMap>
     <insert id="addResRec">
-        INSERT INTO T_RESUME_RECRUIT_REL (RRR_REC_ID, RRR_RES_ID)
-         VALUES (#{recId},#{resId})
+        INSERT INTO T_RESUME_RECRUIT_REL (RRR_RES_ID,RRR_REC_ID)
+         VALUES (#{arg0},#{arg1})
     </insert>
     <delete id="delResRec">
         DELETE FROM T_RESUME_RECRUIT_REL WHERE RRR_RES_ID=#{resId}
     </delete>
     <select id="queryResumes" resultMap="com.youzou.mapper.ResumeDao.resume">
-      SELECT * FROM T_RESUME WHERE RES_ID=(SELECT RRR_RES_ID FROM T_RESUME_RECRUIT_REL)
+      SELECT * FROM T_RESUME WHERE RES_ID IN (SELECT RRR_RES_ID FROM T_RESUME_RECRUIT_REL)
+    </select>
+    <select id="queryByIds" resultMap="resRecRel">
+        SELECT * FROM T_RESUME_RECRUIT_REL WHERE RRR_RES_ID=#{arg0} AND RRR_REC_ID=#{arg1}
+    </select>
+    <select id="queryAll" resultMap="resRecRel">
+        SELECT * FROM T_RESUME_RECRUIT_REL
+    </select>
+    <select id="queryRecruits" resultMap="com.youzou.mapper.RecruitDao.recurit">
+        SELECT * FROM T_RECRUIT WHERE REC_ID IN (SELECT RRR_REC_ID FROM T_RESUME_RECRUIT_REL)
+    </select>
+    <select id="queryByRecId" resultMap="com.youzou.mapper.ResumeDao.resume">
+        SELECT * FROM T_RESUME WHERE RES_ID IN
+        (SELECT RRR_RES_ID FROM T_RESUME_RECRUIT_REL WHERE RRR_REC_ID=#{recId})
     </select>
 </mapper>

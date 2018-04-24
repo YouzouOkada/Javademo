@@ -21,7 +21,7 @@ public class ViewController {
      * 未登录去登陆页面
      * @return
      */
-    @RequestMapping("/toLogin")
+    @RequestMapping("/toLogin.do")
     public String toLogin(){
         return "login";
     }
@@ -31,7 +31,7 @@ public class ViewController {
      * @param page
      * @return
      */
-    @RequestMapping("/pages")
+    @RequestMapping("/pages.do")
     public String pages(String page){
         return page;
     }

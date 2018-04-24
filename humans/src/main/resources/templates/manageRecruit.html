@@ -18,7 +18,10 @@
     <nav>
         <ul>
             <li>
-                <a href="recruit/recruitManage">添加招聘信息</a>
+                <a href="../pages.do?page=manager">首页</a>
+            </li>
+            <li>
+                <a href="recruit/recruitManage.do">添加招聘信息</a>
             </li>
 
         </ul>
@@ -39,7 +42,7 @@
                 <td th:text="${recruit?.recNum}"></td>
                 <td th:text="${recruit?.recReq}"></td>
                 <td>
-                    <form action="recruit/delRecruit" method="post">
+                    <form action="recruit/delRecruit.do" method="post">
                         <input type="hidden" value="${recruit?.recId}"/>
                         <input type="submit" value="删除"/>
                     </form>
@@ -47,7 +50,7 @@
             </tr>
             </tbody>
         </table>
-        <form action="addRecruit" method="post">
+        <form action="addRecruit.do" method="post">
             <p>
                 招聘职位：<select name="recPosiName" ID="posiName">
                 <option th:each="position:${positions}" th:value="${position?.posiName}" th:text="${position?.posiName}"/>

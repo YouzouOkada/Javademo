@@ -10,4 +10,7 @@
     <select id="queryAll" resultMap="position">
         SELECT * FROM T_POSITION
     </select>
+    <select id="queryByDeptId" resultMap="position">
+        SELECT * FROM T_POSITION WHERE POSI_DEPT_ID=#{deptId}
+    </select>
 </mapper>
