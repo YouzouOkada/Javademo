@@ -44,6 +44,7 @@ public class InterviewController {
      */
     @RequestMapping("/addInterview.do")
     public String addInterview(Interview interview, Resume resume,Model model){
+        //发送面试消息
         Calendar calendar = Calendar.getInstance();
         Date date = new Date();
         calendar.setTime(date);
@@ -64,8 +65,7 @@ public class InterviewController {
             return "postedResume";
         }
         model.addAttribute("result","发送完成");
-        ;
-        System.out.println(resRecRelService.delResRec(resume));
+        resRecRelService.updateStat(resume);
         List<Resume> resumes=resRecRelService.queryResumes();
         model.addAttribute("resumes",resumes);
         return "postedResume";
@@ -124,7 +124,7 @@ public class InterviewController {
     }
 
     /**
-     * 拒绝面试邀请
+     * 游客拒绝面试邀请
      * @param model
      * @return
      */
@@ -147,17 +147,21 @@ public class InterviewController {
      */
     @RequestMapping("/manageInterview.do")
     public String manageInterview(Model model){
-        List<Department> departments=departmentService.queryAll();
+        /*List<Department> departments=departmentService.queryAll();
         model.addAttribute("departments",departments);
         List<Position> positions=positionService.queryByDeptId(1);
-        model.addAttribute("positions",positions);
+        model.addAttribute("positions",positions);*/
         List<Interview> interviews=interviewService.queryEnsured();
-        List<Resume> resumes=new ArrayList<>();
+//        List<Resume> resumes=new ArrayList<>();
+        List<ResRecRel> resRecRels=new ArrayList<>();
         for (Interview interview:interviews){
             Resume resume=resumeService.queryByGuId(interview.getInteGuId());
-            resumes.add(resume);
+//            resumes.add(resume);
+            ResRecRel resRecRel=resRecRelService.queryByResume(resume);
+            resRecRels.add(resRecRel);
         }
-        model.addAttribute("resumes",resumes);
+        model.addAttribute("resRecRels",resRecRels);
+//        model.addAttribute("resumes",resumes);
         return "manageInterview";
     }
 }

@@ -55,4 +55,7 @@
     <select id="queryByGuId" resultMap="resume">
         SELECT * FROM T_RESUME WHERE RES_GU_ID=#{guId}
     </select>
+    <select id="queryById" resultMap="resume">
+        SELECT * FROM T_RESUME WHERE RES_ID=#{resId}
+    </select>
 </mapper>

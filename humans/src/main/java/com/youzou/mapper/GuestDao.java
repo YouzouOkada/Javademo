@@ -12,4 +12,6 @@ public interface GuestDao {
     boolean register(Guest guest);
 
     Guest queryByGuId(long guId);
+
+    Guest queryByGuPhone(String guPhone);
 }

@@ -38,16 +38,22 @@ public class ResumeController {
     @RequestMapping("/editResume.do")
     public String editResume(Resume resume, Model model){
         System.out.println(resume);
+        String email=resume.getResEmail();
+        if(!email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")){
+            model.addAttribute("result","邮箱不正确");
+            return "resume";
+        }
         Guest guest=new Guest(resume.getResGuId());
         try {
             resumeService.updateResume(resume);
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("failed","修改失败");
+            model.addAttribute("result","修改失败");
             return "resume";
         }
         Resume resume1=resumeService.queryByGuId(guest.getGuId());
         model.addAttribute("resume",resume1);
+        model.addAttribute("result","修改成功");
         return "resume";
     }
 
@@ -60,20 +66,26 @@ public class ResumeController {
     @RequestMapping("/addResume.do")
     public String addResume(Resume resume, Model model){
         System.out.println(resume);
+        String email=resume.getResEmail();
+        if(!email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")){
+            model.addAttribute("result","邮箱不正确");
+            return "resume";
+        }
         Guest guest=new Guest(resume.getResGuId());
         try {
             resumeService.addResume(resume);
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("failed","添加失败");
+            model.addAttribute("result","添加失败");
         }
         Resume resume1=resumeService.queryByGuId(guest.getGuId());
         model.addAttribute("resume",resume1);
+        model.addAttribute("result","添加成功");
         return "resume";
     }
 
     /**
-     * 查看简历
+     * 游客查看简历
      * @param session
      * @param model
      * @return
@@ -94,7 +106,7 @@ public class ResumeController {
     public String postResume(Resume resume,Recruit recruit,Model model){
         System.out.println(resume);
         System.out.println(recruit);
-        ResRecRel resRecRel=resRecRelService.queryByIds(resume.getResId(),recruit.getRecId());
+        ResRecRel resRecRel=resRecRelService.queryByResume(resume);
         System.out.println(resRecRel);
         if (resRecRel!=null){
             model.addAttribute("result","请不要重复投递");

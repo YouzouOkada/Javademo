@@ -2,8 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>主页</title>
-    <link rel="stylesheet" href="/css/base.css"/>
+    <title>个人信息</title>
 </head>
 <body>
 <div id="container">
@@ -35,31 +34,22 @@
     </aside>
     <article>
         <div>
-            <h3>我的消息</h3>
+            <h3>我的信息</h3>
             <div>
+                <form>
+                    <p>
 
+                    </p>
+                    <p>
+                        <input type="submit" value="修改"/>
+                    </p>
+                </form>
             </div>
         </div>
-        <table border="1">
-            <thead>
-                <th>内容</th><th>日期</th>
-            </thead>
-            <tbody>
-                <tr th:each="letter:${session.employee?.letters}">
-                    <td th:text="${letter?.letCon}"/>
-                    <td th:text="${#dates.format(letter?.letDate, 'yyyy-MM-dd')}"/>
-                </tr>
-                <tr th:if="${session.employee==null}" th:each="letter:${session.guest?.letters}">
-                    <td th:text="${letter?.letCon}"/>
-                    <td th:text="${#dates.format(letter?.letDate, 'yyyy-MM-dd')}"/>
-                </tr>
-            </tbody>
-        </table>
     </article>
     <footer>
 
     </footer>
 </div>
-
 </body>
 </html>

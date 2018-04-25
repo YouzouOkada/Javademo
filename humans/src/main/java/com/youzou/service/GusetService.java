@@ -11,4 +11,6 @@ public interface GusetService {
     boolean register(Guest guest);
 
     Guest queryByGuId(long inteGuId);
+
+    Guest queryByGuPhone(String guPhone);
 }

@@ -28,4 +28,14 @@ public class LetterServiceImp implements LetterService{
     public boolean addLetter(Letter letter) {
         return letterDao.addLetter(letter);
     }
+
+    @Override
+    public boolean clearManager() {
+        return letterDao.clearManager();
+    }
+
+    @Override
+    public boolean delLetterByGuId(long guId) {
+        return letterDao.delLetterByGuId(guId);
+    }
 }

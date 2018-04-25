@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>员工管理</title>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            var $emps=null;
+            $('#department').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../position/posiLinkage.do",
+                    data:{"deptId":$(this).val()},
+                    success:function (obj) {
+                        $('#position').empty();
+                        $('#position').append("<option>-</option>");
+                        for (var i=0;i<obj.length;i++){
+                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                        }
+                        console.log(obj);
+                        emp();
+                    }
+                })
+            });
+            $('#position').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../people/empLinkage.do",
+                    data:{"posiName":$(this).val()},
+                    success:function (obj) {
+                        $('#employee').empty();
+                        $('#employee').append("<option>-</option>");
+                        $emps=obj;
+                        console.log($emps);
+                        for (var i=0;i<obj.length;i++){
+                            $('#employee').append("<option th:value="+obj[i].empId+">"+obj[i].resume.resName+"</option>");
+                        }
+                        emp();
+                    }
+                })
+            });
+            $('#employee').change(function () {
+                for (var i=0;i<$emps.length;i++){
+                    if($emps[i].empName=$(this).val()){
+                        var $emp=$emps[i];
+                        add($emp);
+                    }
+                }
+            });
+        });
+        function emp() {
+            $('.td1').empty();
+            $('.td2').empty();
+            $('.td3').empty();
+            $('.td4').empty();
+            $('.td5').empty();
+            $('.td6').empty();
+            $('.td7').empty();
+            $('.td8').empty();
+            $('.td9').empty();
+        }
+        function add($emp) {
+            $('.td1').empty().append($emp.resume.resName);
+            $('.td2').empty().append($emp.resume.resGend==0?'男':'女');
+            $('.td3').empty().append($emp.resume.resBirth.substring(0,9));
+            $('.td4').empty().append($emp.empPhone);
+            $('.td5').empty().append($emp.resume.resEmail);
+            $('.td6').empty().append($emp.resume.resLoc);
+            $('.td7').empty();
+            switch ($emp.empStat){
+                case 0:
+                    $('.td7').append('在职');
+                    break;
+                case 1:
+                    $('.td7').append('试用期');
+                    break;
+                case 2:
+                    $('.td7').append('离职');
+                    $('.td8').empty().append($emp.empLeaRea);
+                    break;
+            }
+            $('.td9').empty().append($emp.empJoinDate.substring(0,9));
+        }
+
+    </script>
+</head>
+<body>
+部门：
+<select id="department" name="deptId">
+    <option>--</option>
+    <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+</select>
+职位：
+<select id="position" name="posiId">
+    <option>--</option>
+</select>
+员工：
+<select id="employee" name="empId">
+    <option>--</option>
+</select>
+<h3>详细信息</h3>
+<table border="1">
+    <tr>
+        <th>姓名</th><td class="td1"></td>
+    </tr>
+    <tr>
+        <th>性别</th>
+        <td class="td2"></td>
+    </tr>
+    <tr>
+        <th>出生日期</th><td class="td3"></td>
+    </tr>
+    <tr>
+        <th>入职时间</th><td class="td9"></td>
+    </tr>
+    <tr>
+        <th>手机号</th><td class="td4"></td>
+    </tr>
+    <tr>
+        <th>邮箱地址</th><td class="td5"></td>
+    </tr>
+    <tr>
+        <th>籍贯</th><td class="td6"></td>
+    </tr>
+    <tr th:switch="${employees[0]?.empStat}">
+        <th>员工状态</th>
+        <td class="td7"></td>
+    </tr>
+    <tr th:if="${employees[0]?.empStat==2}">
+        <th>离职原因</th><td class="td8"></td>
+    </tr>
+</table>
+<!--<table border="1">
+    <tr>
+        <th>姓名</th><td class="td1" th:text="${employees[0]?.resume?.resName}"></td>
+    </tr>
+    <tr>
+        <th>性别</th>
+        <td class="td2" th:text="${employees[0]?.resume?.resGend==0}?'男':'女'"></td>
+    </tr>
+    <tr>
+        <th>出生日期</th><td class="td3" th:text="${#dates.format(employees[0]?.resume?.resBirth, 'yyyy-MM-dd')}"></td>
+    </tr>
+    <tr>
+        <th>入职时间</th><td class="td9" th:text="${#dates.format(employees[0]?.empJoinDate, 'yyyy-MM-dd')}"></td>
+    </tr>
+    <tr>
+        <th>手机号</th><td class="td4"  th:text="${employees[0]?.empPhone}"></td>
+    </tr>
+    <tr>
+        <th>邮箱地址</th><td class="td5" th:text="${employees[0]?.resume?.resEmail}"></td>
+    </tr>
+    <tr>
+        <th>籍贯</th><td class="td6" th:text="${employees[0]?.resume?.resLoc}"></td>
+    </tr>
+    <tr th:switch="${employees[0]?.empStat}">
+        <th>员工状态</th>
+        <td class="td7" th:case="0" th:text="在职"></td>
+        <td class="td7" th:case="1" th:text="试用期"></td>
+        <td class="td7" th:case="2" th:text="离职"></td>
+    </tr>
+    <tr th:if="${employees[0]?.empStat==2}">
+        <th>离职原因</th><td class="td8" th:text="${employees[0]?.empLeaRea}"></td>
+    </tr>
+</table>-->
+</body>
+</html>

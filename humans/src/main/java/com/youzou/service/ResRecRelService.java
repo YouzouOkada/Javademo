@@ -23,4 +23,8 @@ public interface ResRecRelService {
     List<Recruit> queryRecruits();
 
     List<Resume> queryByRecId(Recruit recruit);
+
+    boolean updateStat(Resume resume);
+
+    ResRecRel queryByResume(Resume resume);
 }

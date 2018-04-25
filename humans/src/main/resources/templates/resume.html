@@ -59,14 +59,14 @@
                 <tr>
                     <td>教育经历</td>
                     <td>
-                        <select>
-                            <option name="resEdu" th:value="0"  th:selected="${resEdu=='0'}">博士及以上</option>
-                            <option name="resEdu" th:value="1"  th:selected="${resEdu=='1'}">硕士</option>
-                            <option name="resEdu" th:value="2"  th:selected="${resEdu=='2'}">本科</option>
-                            <option name="resEdu" th:value="3"  th:selected="${resEdu=='3'}">大专</option>
-                            <option name="resEdu" th:value="4"  th:selected="${resEdu=='4'}">高中/高职</option>
-                            <option name="resEdu" th:value="5"  th:selected="${resEdu=='5'}">初中/中专</option>
-                            <option name="resEdu" th:value="6"  th:selected="${resEdu=='6'}">小学及以下</option>
+                        <select name="resEdu">
+                            <option th:value="0"  th:selected="${resEdu=='0'}">博士及以上</option>
+                            <option th:value="1"  th:selected="${resEdu=='1'}">硕士</option>
+                            <option th:value="2"  th:selected="${resEdu=='2'}">本科</option>
+                            <option th:value="3"  th:selected="${resEdu=='3'}">大专</option>
+                            <option th:value="4"  th:selected="${resEdu=='4'}">高中/高职</option>
+                            <option th:value="5"  th:selected="${resEdu=='5'}">初中/中专</option>
+                            <option th:value="6"  th:selected="${resEdu=='6'}">小学及以下</option>
                         </select>
                     </td>
                     <td>工作经验</td>
@@ -81,7 +81,7 @@
             <p>
                 <button type="submit">添加</button>
             </p>
-            <p th:text="${failed}"></p>
+            <p th:text="${result}"></p>
         </form>
         <form th:if="${resume!=null}" action="editResume.do" method="post">
             <table border="1">
@@ -116,14 +116,14 @@
                         <!--<input name="resEdu" type="radio" value="4"/>高中/高职-->
                         <!--<input name="resEdu" type="radio" value="5"/>初中/中专-->
                         <!--<input name="resEdu" type="radio" value="6"/>小学及以下-->
-                        <select>
-                            <option name="resEdu" th:value="0"  th:selected="${resEdu=='0'}">博士及以上</option>
-                            <option name="resEdu" th:value="1"  th:selected="${resEdu=='1'}">硕士</option>
-                            <option name="resEdu" th:value="2"  th:selected="${resEdu=='2'}">本科</option>
-                            <option name="resEdu" th:value="3"  th:selected="${resEdu=='3'}">大专</option>
-                            <option name="resEdu" th:value="4"  th:selected="${resEdu=='4'}">高中/高职</option>
-                            <option name="resEdu" th:value="5"  th:selected="${resEdu=='5'}">初中/中专</option>
-                            <option name="resEdu" th:value="6"  th:selected="${resEdu=='6'}">小学及以下</option>
+                        <select name="resEdu">
+                            <option  th:value="0"  th:selected="${resEdu=='0'}">博士及以上</option>
+                            <option  th:value="1"  th:selected="${resEdu=='1'}">硕士</option>
+                            <option  th:value="2"  th:selected="${resEdu=='2'}">本科</option>
+                            <option  th:value="3"  th:selected="${resEdu=='3'}">大专</option>
+                            <option  th:value="4"  th:selected="${resEdu=='4'}">高中/高职</option>
+                            <option  th:value="5"  th:selected="${resEdu=='5'}">初中/中专</option>
+                            <option  th:value="6"  th:selected="${resEdu=='6'}">小学及以下</option>
                         </select>
                     </td>
                     <td>工作经验</td>
@@ -138,7 +138,7 @@
             <p>
                 <button type="submit">修改</button>
             </p>
-            <p th:text="${failed}"></p>
+            <p th:text="${result}"></p>
         </form>
     </article>
     <footer>

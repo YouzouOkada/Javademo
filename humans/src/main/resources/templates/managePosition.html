@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>部门管理</title>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('#department').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../position/posiLinkage.do",
+                    data:{"deptId":$(this).val()},
+                    success:function (obj) {
+                        $('#position').empty();
+                        for (var i=0;i<obj.length;i++){
+                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+<nav>
+    <ul>
+        <li>
+            <a href="../pages.do?page=manager">首页</a>
+        </li>
+        <li>
+            <a href="../recruit/recruitManage.do">管理招聘信息</a>
+        </li>
+        <li>
+            <a href="../recruit/postedResume.do">查看应聘信息</a>
+        </li>
+        <li>
+            <a href="../interview/manageInterview.do">面试筛选</a>
+        </li>
+    </ul>
+</nav>
+    <div>
+        <fieldset>
+            <legend>添加部门</legend>
+            <form action="../position/addDepartment.do" method="post">
+                <p>
+                    新部门名称：<input name="deptName"/>
+                </p>
+                <p>
+                    <input type="submit" value="添加部门"/>
+                    <span th:text="${addDeptResult}"></span>
+                </p>
+
+            </form>
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>删除部门</legend>
+            <form action="../position/delDepartment.do" method="post">
+                <select name="deptId">
+                    <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+                </select>
+                <p>
+                    <input type="submit" value="删除"/>
+                    <span th:text="${delDeptResult}"></span>
+                </p>
+            </form>
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>添加职位</legend>
+            <form action="../position/addPosition.do" method="post">
+                <p>
+                    所属部门：
+                    <select name="deptId">
+                        <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+                    </select>
+                </p>
+                <p>
+                    新职位名称：<input name="posiName"/>
+                    基本薪资：<input type="number" min="3000" step="500" name="posiBaseSal"/>
+                </p>
+                <p>
+                    <input type="submit" value="添加职位"/>
+                    <span th:text="${addPosiResult}"></span>
+                </p>
+            </form>
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>删除职位</legend>
+            <form action="../position/delPosition.do" method="post">
+                <p>
+                    所属部门：
+                    <select name="deptId" id="department">
+                        <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+                    </select>
+                </p>
+                <p>
+                    职位名称：
+                    <select id="position" name="posiId">
+                        <option th:each="position:${positions}" th:value="${position?.posiId}" th:text="${position?.posiName}"></option>
+                    </select>
+                </p>
+                <p>
+                    <input type="submit" value="删除"/>
+                    <span th:text="${delPosiResult}"></span>
+                </p>
+            </form>
+        </fieldset>
+
+    </div>
+
+</body>
+</html>

@@ -4,26 +4,7 @@
     <meta charset="UTF-8"/>
     <title>面试筛选</title>
     <link rel="stylesheet" href="../css/base.css"/>
-    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
-    <script th:inline="javascript">
-        $(function () {
-            $('#department').change(function () {
-                $('#button').attr("disabled",false);
-                $.ajax({
-                    type:"post",
-                    url:"../position/posiLinkage.do",
-                    data:{"deptId":$(this).val()},
-                    success:function (obj) {
-                        $('#position').empty();
-                        for (var i=0;i<obj.length;i++){
-                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
-                        }
-                    }
-                })
-            });
 
-        });
-    </script>
 </head>
 <body>
 <nav>
@@ -32,7 +13,7 @@
             <a href="../pages.do?page=manager">首页</a>
         </li>
         <li>
-            <a href="../recruit/recruitManage.do">添加招聘信息</a>
+            <a href="../recruit/recruitManage.do">管理招聘信息</a>
         </li>
         <li>
             <a href="../recruit/postedResume.do">查看应聘信息</a>
@@ -42,12 +23,43 @@
         </li>
     </ul>
 </nav>
-<form action="people/addEmployee.do" method="post">
-    <select id="department">
-        <option  name="empDeptId" th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+<p th:text="${result}"></p>
+<form action="../people/addEmployee.do" method="post">
+    <div th:each="resRecRel:${resRecRels}">
+        <p>姓名：<span th:text="${resRecRel?.rrrResume?.resName}"></span></p>
+        <p>
+            性别：<span th:if="${resRecRel?.rrrResume?.resGend==0}" th:text="男"></span>
+            <span th:if="${resRecRel?.rrrResume?.resGend==1}" th:text="女"></span>
+        </p>
+        <p>籍贯：<span th:text="${resRecRel?.rrrResume?.resLoc}"></span></p>
+        <p>出生日期：<span th:text="${#dates.format(resRecRel?.rrrResume?.resBirth, 'yyyy-MM-dd')}"></span></p>
+        <p>手机号码：<span th:text="${resRecRel?.rrrResume?.resPhone}"></span></p>
+        <p>电子邮箱：<span th:text="${resRecRel?.rrrResume?.resEmail}"></span></p>
+        <p>
+            学历：<span th:if="${resRecRel?.rrrResume?.resEdu==0}" th:text="博士及以上"></span>
+            <span th:if="${resRecRel?.rrrResume?.resEdu==1}" th:text="硕士"></span>
+            <span th:if="${resRecRel?.rrrResume?.resEdu==2}" th:text="本科"></span>
+            <span th:if="${resRecRel?.rrrResume?.resEdu==3}" th:text="大专"></span>
+            <span th:if="${resRecRel?.rrrResume?.resEdu==4}" th:text="高中/高职"></span>
+            <span th:if="${resRecRel?.rrrResume?.resEdu==5}" th:text="初中/中专"></span>
+            <span th:if="${resRecRel?.rrrResume?.resEdu==6}" th:text="小学及以下"></span>
+        </p>
+        <p>工作经验：<span th:text="${resRecRel?.rrrResume?.resExp}"></span>年</p>
+        <p>自我简介：<span th:text="${resRecRel?.rrrResume?.resDesc}"></span></p>
+        <input type="hidden" name="posiName" th:value="${resRecRel?.rrrRecruit?.recPosiName}"/>
+        <input type="submit" id="button" value="添加为员工"/>
+        <form action="../people/cancel.do" method="post">
+            <input type="hidden" th:value="${resRecRel?.rrrResume?.resPhone}" name="guPhone"/>
+            <input type="submit" value="不录用"/>
+        </form>
+    </div>
+</form>
+<!--<form action="../people/addEmployee.do" method="post">
+    <select id="department" name="empDeptId">
+        <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
     </select>
-    <select id="position">
-        <option  name="empPosiId" th:each="position:${positions}" th:value="${position?.posiId}" th:text="${position?.posiName}"></option>
+    <select id="position" name="empPosiId">
+        <option th:each="position:${positions}" th:value="${position?.posiId}" th:text="${position?.posiName}"></option>
     </select>
     <div th:each="resume:${resumes}">
         <p>姓名：<span th:text="${resume?.resName}"></span></p>
@@ -56,7 +68,7 @@
             <span th:if="${resume?.resGend==1}" th:text="女"></span>
         </p>
         <p>籍贯：<span th:text="${resume?.resLoc}"></span></p>
-        <p>出生日期：<span th:text="${resume?.resBirth}"></span></p>
+        <p>出生日期：<span th:text="${#dates.format(resume?.resBirth, 'yyyy-MM-dd')}"></span></p>
         <p>手机号码：<span th:text="${resume?.resPhone}"></span></p>
         <p>电子邮箱：<span th:text="${resume?.resEmail}"></span></p>
         <p>
@@ -68,14 +80,14 @@
             <span th:if="${resume?.resEdu==5}" th:text="初中/中专"></span>
             <span th:if="${resume?.resEdu==6}" th:text="小学及以下"></span>
         </p>
-        <p>工作经验：<span th:text="${resume?.resExp}年"></span></p>
+        <p>工作经验：<span th:text="${resume?.resExp}"></span>年</p>
         <p>自我简介：<span th:text="${resume?.resDesc}"></span></p>
-        <input type="submit" id="button" value="添加为员工" disabled="true"/>
-        <form action="people/cancel.do" method="post">
+        <input type="submit" id="button" value="添加为员工"/>
+        <form action="../people/cancel.do" method="post">
             <input type="hidden" th:value="${resume?.resPhone}" name="empPhone"/>
             <input type="submit" value="不录用"/>
         </form>
     </div>
-</form>
+</form>-->
 </body>
 </html>

@@ -21,9 +21,14 @@
                 <a href="../pages.do?page=manager">首页</a>
             </li>
             <li>
-                <a href="recruit/recruitManage.do">添加招聘信息</a>
+                <a href="../recruit/recruitManage.do">管理招聘信息</a>
             </li>
-
+            <li>
+                <a href="../recruit/postedResume.do">查看应聘信息</a>
+            </li>
+            <li>
+                <a href="../interview/manageInterview.do">面试筛选</a>
+            </li>
         </ul>
     </nav>
     <aside>
@@ -32,7 +37,7 @@
     <article>
         <table border="1">
             <thead>
-            <th>招聘职位</th><th>招聘薪资</th><th>工作待遇</th><th>招聘人数</th><th>招聘条件</th><th>投递简历</th>
+            <th>招聘职位</th><th>招聘薪资</th><th>工作待遇</th><th>招聘人数</th><th>招聘条件</th><th>撤销招聘</th>
             </thead>
             <tbody>
             <tr th:each="recruit:${recruits}">
@@ -42,8 +47,8 @@
                 <td th:text="${recruit?.recNum}"></td>
                 <td th:text="${recruit?.recReq}"></td>
                 <td>
-                    <form action="recruit/delRecruit.do" method="post">
-                        <input type="hidden" value="${recruit?.recId}"/>
+                    <form action="../recruit/delRecruit.do" method="post">
+                        <input type="hidden" th:value="${recruit?.recId}"/>
                         <input type="submit" value="删除"/>
                     </form>
                 </td>

@@ -14,4 +14,8 @@ public interface LetterDao {
     List<Letter> queryLetters(int letType,long letRecId);
 
     boolean addLetter(Letter letter);
+
+    boolean clearManager();
+
+    boolean delLetterByGuId(long guId);
 }

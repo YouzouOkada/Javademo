@@ -9,4 +9,10 @@ import java.util.List;
  */
 public interface DepartmentDao {
     List<Department> queryAll();
+
+    Department queryByName(Department department);
+
+    boolean addDepartment(Department department);
+
+    boolean delDepartment(Department department);
 }

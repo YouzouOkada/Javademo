@@ -7,10 +7,31 @@
         <result property="posiName" column="posi_name"/>
         <result property="posiBaseSal" column="posi_base_sal"/>
     </resultMap>
+    <insert id="addPosition">
+        INSERT INTO T_POSITION (POSI_DEPT_ID, POSI_NAME, POSI_BASE_SAL)
+        VALUES (#{posiDeptId},#{posiName},#{posiBaseSal})
+    </insert>
+    <delete id="delPositions">
+        DELETE FROM T_POSITION WHERE POSI_DEPT_ID=#{deptId}
+    </delete>
+    <delete id="delPosition">
+        DELETE FROM T_POSITION WHERE POSI_ID=#{posiId}
+    </delete>
     <select id="queryAll" resultMap="position">
         SELECT * FROM T_POSITION
     </select>
     <select id="queryByDeptId" resultMap="position">
         SELECT * FROM T_POSITION WHERE POSI_DEPT_ID=#{deptId}
     </select>
+    <select id="queryDept" resultMap="com.youzou.mapper.DepartmentDao.department">
+        SELECT * FROM T_DEPARTMENT WHERE DEPT_ID=
+        (SELECT POSI_DEPT_ID FROM T_POSITION WHERE POSI_ID=#{posiId})
+    </select>
+    <select id="queryByName" resultMap="position">
+        SELECT * FROM T_POSITION WHERE POSI_NAME=#{posiName}
+    </select>
+    <select id="queryByNameAndDeptId" resultMap="position">
+        SELECT * FROM T_POSITION WHERE POSI_NAME=#{arg0.posiName} AND POSI_DEPT_ID=#{arg1.deptId}
+    </select>
+
 </mapper>

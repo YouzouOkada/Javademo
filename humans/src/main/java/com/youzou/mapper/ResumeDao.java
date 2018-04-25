@@ -12,4 +12,6 @@ public interface ResumeDao {
     boolean updateResume(Resume resume);
 
     boolean addResume(Resume resume);
+
+    Resume queryById(Resume resume);
 }

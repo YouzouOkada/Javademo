@@ -3,18 +3,22 @@
 <mapper namespace="com.youzou.mapper.ResRecRelDao">
     <resultMap id="resRecRel" type="com.youzou.domain.ResRecRel">
         <id property="rrrId" column="rrr_id"/>
-        <result property="rrrResId" column="rrr_res_id"/>
-        <result property="rrrRecId" column="rrr_rec_id"/>
+        <result property="rrrStat" column="rrr_stat"/>
+        <association property="rrrResume" column="rrr_res_id" javaType="com.youzou.domain.Resume" select="com.youzou.mapper.ResumeDao.queryById"/>
+        <association property="rrrRecruit" column="rrr_rec_id" javaType="com.youzou.domain.Recruit" select="com.youzou.mapper.RecruitDao.queryById"/>
     </resultMap>
     <insert id="addResRec">
         INSERT INTO T_RESUME_RECRUIT_REL (RRR_RES_ID,RRR_REC_ID)
          VALUES (#{arg0},#{arg1})
     </insert>
+    <update id="updateStat">
+        UPDATE T_RESUME_RECRUIT_REL SET RRR_STAT=1 WHERE RRR_RES_ID=#{resId}
+    </update>
     <delete id="delResRec">
         DELETE FROM T_RESUME_RECRUIT_REL WHERE RRR_RES_ID=#{resId}
     </delete>
     <select id="queryResumes" resultMap="com.youzou.mapper.ResumeDao.resume">
-      SELECT * FROM T_RESUME WHERE RES_ID IN (SELECT RRR_RES_ID FROM T_RESUME_RECRUIT_REL)
+      SELECT * FROM T_RESUME WHERE RES_ID IN (SELECT RRR_RES_ID FROM T_RESUME_RECRUIT_REL WHERE RRR_STAT=0)
     </select>
     <select id="queryByIds" resultMap="resRecRel">
         SELECT * FROM T_RESUME_RECRUIT_REL WHERE RRR_RES_ID=#{arg0} AND RRR_REC_ID=#{arg1}
@@ -28,5 +32,8 @@
     <select id="queryByRecId" resultMap="com.youzou.mapper.ResumeDao.resume">
         SELECT * FROM T_RESUME WHERE RES_ID IN
         (SELECT RRR_RES_ID FROM T_RESUME_RECRUIT_REL WHERE RRR_REC_ID=#{recId})
+    </select>
+    <select id="queryByResume" resultMap="resRecRel">
+        SELECT * FROM T_RESUME_RECRUIT_REL WHERE RRR_RES_ID=#{resId}
     </select>
 </mapper>

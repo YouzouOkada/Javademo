@@ -1,5 +1,6 @@
 package com.youzou.service.imp;
 
+import com.youzou.domain.Department;
 import com.youzou.mapper.PositionDao;
 import com.youzou.domain.Position;
 import com.youzou.service.PositionService;
@@ -24,5 +25,35 @@ public class PositionServiceImp implements PositionService {
     @Override
     public List<Position> queryByDeptId(long deptId) {
         return positionDao.queryByDeptId(deptId);
+    }
+
+    @Override
+    public Department queryDept(Position position) {
+        return positionDao.queryDept(position);
+    }
+
+    @Override
+    public Position queryByName(Position position) {
+        return positionDao.queryByName(position);
+    }
+
+    @Override
+    public Position queryByNameAndDeptId(Position position, Department department) {
+        return positionDao.queryByNameAndDeptId(position,department);
+    }
+
+    @Override
+    public boolean addPosition(Position position) {
+        return positionDao.addPosition(position);
+    }
+
+    @Override
+    public boolean delPositions(Department department) {
+        return positionDao.delPositions(department);
+    }
+
+    @Override
+    public boolean delPosition(Position position) {
+        return positionDao.delPosition(position);
     }
 }

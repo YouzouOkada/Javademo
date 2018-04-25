@@ -11,4 +11,6 @@ public interface RecruitService {
     List<Recruit> queryAll();
 
     boolean addRecruit(Recruit recruit);
+
+    boolean delRecruit(Recruit recruit);
 }

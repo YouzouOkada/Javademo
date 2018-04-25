@@ -11,4 +11,8 @@ public interface RecruitDao {
     List<Recruit> queryAll();
 
     boolean addRecruit(Recruit recruit);
+
+    boolean delRecruit(Recruit recruit);
+
+    Recruit queryById(Recruit recruit);
 }

@@ -1,7 +1,10 @@
 package com.youzou.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +22,9 @@ public class Employee implements Serializable {
     private int empAttend;//出勤天数
     private Guest guest;//原始游客信息
     private List<Letter> letters;//消息
+    private Resume resume;//员工简历
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date empJoinDate;//入职日期
 
     public Employee() {
     }
@@ -108,6 +114,22 @@ public class Employee implements Serializable {
         this.guest = guest;
     }
 
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    public Date getEmpJoinDate() {
+        return empJoinDate;
+    }
+
+    public void setEmpJoinDate(Date empJoinDate) {
+        this.empJoinDate = empJoinDate;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -119,6 +141,10 @@ public class Employee implements Serializable {
                 ", empPass='" + empPass + '\'' +
                 ", empPhone='" + empPhone + '\'' +
                 ", empAttend=" + empAttend +
+                ", guest=" + guest +
+                ", letters=" + letters +
+                ", resume=" + resume +
+                ", empJoinDate=" + empJoinDate +
                 '}';
     }
 }

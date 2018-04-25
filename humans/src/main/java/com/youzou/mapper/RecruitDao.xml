@@ -13,7 +13,14 @@
         INSERT INTO T_RECRUIT (REC_POSI_NAME, REC_SAL, REC_DEAL, REC_NUM, REC_REQ)
          VALUES (#{recPosiName},#{recSal},#{recDeal},#{recNum},#{recReq})
     </insert>
+    <delete id="delRecruit">
+        DELETE FROM T_RECRUIT WHERE REC_ID=#{recId}
+    </delete>
     <select id="queryAll" resultMap="recurit">
         SELECT * FROM T_RECRUIT
     </select>
+    <select id="queryById" resultMap="recurit">
+        SELECT * FROM T_RECRUIT WHERE REC_ID=#{recId}
+    </select>
+
 </mapper>

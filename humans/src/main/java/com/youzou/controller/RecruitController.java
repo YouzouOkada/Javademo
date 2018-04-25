@@ -4,6 +4,7 @@ import com.youzou.domain.Position;
 import com.youzou.domain.Recruit;
 import com.youzou.domain.ResRecRel;
 import com.youzou.domain.Resume;
+import com.youzou.service.LetterService;
 import com.youzou.service.PositionService;
 import com.youzou.service.RecruitService;
 import com.youzou.service.ResRecRelService;
@@ -29,6 +30,8 @@ public class RecruitController {
     private PositionService positionService;
     @Autowired
     private ResRecRelService resRecRelService;
+    @Autowired
+    private LetterService letterService;
 
     /**
      * 游客查看招聘信息
@@ -51,13 +54,24 @@ public class RecruitController {
     public String recruitManage(Model model){
         List<Position> positions=positionService.queryAll();
         model.addAttribute("positions",positions);
-        System.out.println(positions);
+        List<Recruit> recruits=recruitService.queryAll();
+        model.addAttribute("recruits",recruits);
         return "manageRecruit";
     }
 
+    /**
+     * 撤销招聘信息
+     * @param recruit
+     * @param model
+     * @return
+     */
     @RequestMapping("delRecruit.do")
     public String delRecruit(Recruit recruit,Model model){
-
+        recruitService.delRecruit(recruit);
+        List<Position> positions=positionService.queryAll();
+        model.addAttribute("positions",positions);
+        List<Recruit> recruits=recruitService.queryAll();
+        model.addAttribute("recruits",recruits);
         return "manageRecruit";
     }
     /**
@@ -88,6 +102,7 @@ public class RecruitController {
        }
        model.addAttribute("recruits",recruits);
        model.addAttribute("relMap",resRecRelMap);*/
+       letterService.clearManager();
        List<Resume> resumes=resRecRelService.queryResumes();
        model.addAttribute("resumes",resumes);
         return "postedResume";

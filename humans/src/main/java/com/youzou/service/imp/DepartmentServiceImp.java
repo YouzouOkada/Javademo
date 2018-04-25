@@ -20,4 +20,19 @@ public class DepartmentServiceImp implements DepartmentService {
     public List<Department> queryAll() {
         return departmentDao.queryAll();
     }
+
+    @Override
+    public Department queryByName(Department department) {
+        return departmentDao.queryByName(department);
+    }
+
+    @Override
+    public boolean addDepartment(Department department) {
+        return departmentDao.addDepartment(department);
+    }
+
+    @Override
+    public boolean delDepartment(Department department) {
+        return departmentDao.delDepartment(department);
+    }
 }

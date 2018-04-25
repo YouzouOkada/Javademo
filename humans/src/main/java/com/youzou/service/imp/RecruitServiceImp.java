@@ -25,4 +25,9 @@ public class RecruitServiceImp implements RecruitService {
     public boolean addRecruit(Recruit recruit) {
         return recruitDao.addRecruit(recruit);
     }
+
+    @Override
+    public boolean delRecruit(Recruit recruit) {
+        return recruitDao.delRecruit(recruit);
+    }
 }

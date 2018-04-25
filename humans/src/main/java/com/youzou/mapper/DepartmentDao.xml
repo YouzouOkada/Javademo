@@ -6,7 +6,16 @@
         <result property="deptName" column="dept_name"/>
         <result property="deptCreDate" column="dept_cre_date"/>
     </resultMap>
+    <insert id="addDepartment">
+        INSERT INTO T_DEPARTMENT (DEPT_NAME) VALUES (#{deptName})
+    </insert>
+    <delete id="delDepartment">
+        DELETE FROM T_DEPARTMENT WHERE DEPT_ID=#{deptId}
+    </delete>
     <select id="queryAll" resultMap="department">
         SELECT * FROM T_DEPARTMENT
+    </select>
+    <select id="queryByName" resultMap="department">
+        SELECT * FROM T_DEPARTMENT WHERE DEPT_NAME=#{deptName}
     </select>
 </mapper>

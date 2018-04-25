@@ -10,6 +10,9 @@
     <select id="queryByGuId" resultMap="guest">
         SELECT * FROM T_GUEST WHERE GU_ID=#{guId}
     </select>
+    <select id="queryByGuPhone" resultMap="guest">
+        SELECT * FROM T_GUEST WHERE GU_PHONE=#{guPhone}
+    </select>
     <resultMap id="guest" type="com.youzou.domain.Guest">
         <id property="guId" column="gu_id"/>
         <result property="guPhone" column="gu_phone"/>

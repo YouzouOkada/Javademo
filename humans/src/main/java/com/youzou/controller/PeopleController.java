@@ -2,15 +2,18 @@ package com.youzou.controller;
 
 import com.youzou.domain.*;
 import com.youzou.service.*;
+import org.hibernate.boot.jaxb.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +36,10 @@ public class PeopleController {
     private PositionService positionService;
     @Autowired
     private ResumeService resumeService;
+    @Autowired
+    private LetterService letterService;
+    @Autowired
+    private ResRecRelService resRecRelService;
 
     /**
      * 登录 （三合一）
@@ -91,22 +98,98 @@ public class PeopleController {
         return "home";
 
     }
-    @RequestMapping("/addEmployee.do")
-    public String addEmployee(Employee employee,Model model){
-        System.out.println(employee);
 
-        /*List<Interview> interviews=interviewService.queryEnsured();
-        List<Resume> resumes=new ArrayList<>();
+    /**
+     * 员工入职
+     * @param employee
+     * @param model
+     * @return
+     */
+    @RequestMapping("/addEmployee.do")
+    public String addEmployee(Position position,Employee employee,Model model){
+//        System.out.println(position);
+//        System.out.println(employee);
+        Position position1=positionService.queryByName(position);
+        Department department=positionService.queryDept(position1);
+        //添加员工信息
+        Guest guest=gusetService.queryByGuPhone(employee.getEmpPhone());
+        System.out.println(guest);
+        employee.setGuest(guest);
+        employee.setEmpPass(guest.getGuPass());
+        employee.setEmpDeptId(department.getDeptId());
+        employee.setEmpPosiId(position1.getPosiId());
+        employee.setEmpJoinDate(new Date());
+        try {
+            employeeService.addEmployee(employee);
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("result","录用失败");
+            return "manageInterview";
+        }
+        interviewService.refuseInterview(guest.getGuId());//删除面试信息
+        letterService.delLetterByGuId(guest.getGuId());
+        //返回面试筛选界面
+        List<Interview> interviews=interviewService.queryEnsured();
+        List<ResRecRel> resRecRels=new ArrayList<>();
         for (Interview interview:interviews){
             Resume resume=resumeService.queryByGuId(interview.getInteGuId());
-            resumes.add(resume);
+            ResRecRel resRecRel=resRecRelService.queryByResume(resume);
+            resRecRels.add(resRecRel);
         }
-        model.addAttribute("resumes",resumes);
-        List<Department> departments=departmentService.queryAll();
-        model.addAttribute("departments",departments);
-        List<Position> positions=positionService.queryByDeptId(1);
-        model.addAttribute("positions",positions);*/
+        model.addAttribute("resRecRels",resRecRels);
+        model.addAttribute("result","录用完成");
         return "manageInterview";
-
     }
+
+    /**
+     * 不录用
+     * @param guest
+     * @param model
+     * @return
+     */
+    @RequestMapping("/cancel.do")
+    public String cancel(Guest guest,Model model){
+        interviewService.refuseInterview(guest.getGuId());//删除面试信息
+        //通知面试结果
+        Letter letter=new Letter();
+        letter.setLetCon("你没有通过面试");
+        letter.setLetDate(new Date());
+        letter.setLetType(2);
+        letter.setLetRecId(guest.getGuId());
+        letterService.addLetter(letter);
+        //返回面试筛选界面
+        List<Interview> interviews=interviewService.queryEnsured();
+        List<ResRecRel> resRecRels=new ArrayList<>();
+        for (Interview interview:interviews){
+            Resume resume=resumeService.queryByGuId(interview.getInteGuId());
+            ResRecRel resRecRel=resRecRelService.queryByResume(resume);
+            resRecRels.add(resRecRel);
+        }
+        model.addAttribute("resRecRels",resRecRels);
+        model.addAttribute("result","已拒绝录用");
+        return "manageInterview";
+    }
+
+    /**
+     * 员工管理页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("/employeeManageView.do")
+    public String employeeManageView(Model model){
+        List<Department> departments=departmentService.queryAll();
+        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
+        List<Employee> employees=employeeService.queryByPosiId(positions.get(0));
+        model.addAttribute("departments",departments);
+        model.addAttribute("positions",positions);
+        model.addAttribute("employees",employees);
+        return "manageEmployee";
+    }
+
+    @RequestMapping("/empLinkage.do")
+    @ResponseBody
+    public List<Employee> empLinkage(Position position){
+        return employeeService.queryByPosiId(positionService.queryByName(position));
+    }
+
 }

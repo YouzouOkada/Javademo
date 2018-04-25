@@ -52,4 +52,14 @@ public class ResRecRelServiceImp implements ResRecRelService {
     public List<Resume> queryByRecId(Recruit recruit) {
         return resRecRelDao.queryByRecId(recruit);
     }
+
+    @Override
+    public boolean updateStat(Resume resume) {
+        return resRecRelDao.updateStat(resume);
+    }
+
+    @Override
+    public ResRecRel queryByResume(Resume resume) {
+        return resRecRelDao.queryByResume(resume);
+    }
 }
