@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>修改参训人员</title>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('#department').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../position/posiLinkage.do",
+                    data:{"deptId":$(this).val()},
+                    success:function (obj) {
+                        $('#position').empty();
+                        $('#position').append("<option>--</option>");
+                        for (var i=0;i<obj.length;i++){
+                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                        }
+                    }
+                })
+            });
+            $('#position').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../people/empLinkage.do",
+                    data:{"posiName":$(this).val()},
+                    success:function (obj) {
+                        $('#employee').empty();
+                        var $train=[[${train}]];
+                        var $employees=$train.employees;
+                        console.log($employees);
+                        for (var i=0;i<obj.length;i++){
+                            console.log(obj[i].resume.resName);
+                            var flag=0;
+                            for (var j=0;j<$employees.length;j++){
+                                var $employee=$employees[j];
+                                console.log($employee.empId);
+                                if($employee.empId==obj[i].empId){
+                                    flag=1;
+                                }
+                            }
+                            if(flag==0){
+                                $('#employee').append("<input type='checkbox' value="+obj[i].empId+" name='empId' id='checkbox"+i+"'/><span>"+obj[i].resume.resName+"</span>")
+                            }else {
+                                $('#employee').append("<input type='checkbox' value="+obj[i].empId+" name='empId' id='checkbox"+i+"' checked='checked'/><span>"+obj[i].resume.resName+"</span>")
+                                flag=0;
+                            }
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+<form action="updateTrainMember.do" method="post">
+    参加人员：
+    部门：
+    <select id="department" name="deptId">
+        <option>--</option>
+        <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+    </select>
+    职位：
+    <select id="position" name="posiId">
+        <option>--</option>
+    </select>
+    <div id="employee"></div>
+</form>
+
+</body>
+</html>

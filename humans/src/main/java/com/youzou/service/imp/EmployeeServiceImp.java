@@ -37,4 +37,24 @@ public class EmployeeServiceImp implements EmployeeService {
     public List<Employee> queryByPosiId(Position position) {
         return employeeDao.queryByPosiId(position);
     }
+
+    @Override
+    public Employee queryById(Employee employee) {
+        return employeeDao.queryById(employee);
+    }
+
+    @Override
+    public boolean becomeRegular(Employee employee) {
+        return employeeDao.becomeRegular(employee);
+    }
+
+    @Override
+    public boolean changePosition(Employee employee) {
+        return employeeDao.changePosition(employee);
+    }
+
+    @Override
+    public boolean leavePosition(Employee employee) {
+        return employeeDao.leavePosition(employee);
+    }
 }

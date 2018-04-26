@@ -5,9 +5,22 @@
         <id property="traId" column="tra_id"/>
         <result property="traTheme" column="tra_theme"/>
         <result property="traCon" column="tra_con"/>
-        <result property="traCount" column="tra_count"/>
         <result property="traStart" column="tra_start"/>
         <result property="traEnd" column="tra_end"/>
         <result property="traLoc" column="tra_loc"/>
+        <collection property="employees" column="tra_id" ofType="com.youzou.domain.Employee" select="com.youzou.mapper.EmpTraRelDao.queryByTrain"/>
     </resultMap>
+    <insert id="addTrain">
+        <selectKey keyProperty="traId" keyColumn="traId" order="AFTER" resultType="long">
+            select T_TRA_SEQ.currval from dual
+        </selectKey>
+        INSERT INTO T_TRAIN (TRA_THEME, TRA_CON, TRA_START, TRA_END, TRA_LOC)
+        VALUES (#{traTheme},#{traCon},#{traStart},#{traEnd},#{traLoc})
+    </insert>
+    <select id="queryAll" resultMap="train">
+        SELECT * FROM T_TRAIN
+    </select>
+    <select id="queryById" resultMap="train">
+        SELECT * FROM T_TRAIN WHERE TRA_ID=#{traId}
+    </select>
 </mapper>

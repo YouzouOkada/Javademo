@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>岗位调动</title>
+    <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('#department').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../position/posiLinkage.do",
+                    data:{"deptId":$(this).val()},
+                    success:function (obj) {
+                        $('#position').empty();
+                        $('#position').append("<option>--</option>");
+                        for (var i=0;i<obj.length;i++){
+                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+<form action="../people/changePosition.do" method="post">
+    <p>
+        <select name="empDeptId" id="department">
+            <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+        </select>
+    </p>
+    <p>
+        <select name="posiName" id="position">
+            <option th:each="position:${positions}" th:value="${position?.posiId}" th:text="${position?.posiName}"/>
+        </select>
+    </p>
+    <p>
+        <input type="hidden" th:value="${employee?.empId}" name="empId"/>
+    </p>
+    <p>
+        <input type="submit" value="调动岗位"/>
+    </p>
+</form>
+<fieldset>
+    <legend>员工离职</legend>
+    <form action="../people/leavePosition.do" method="post">
+        <input name="empLeaRea"/>
+        <input type="hidden" th:value="${employee?.empId}" name="empId"/>
+        <input type="submit" value="让他离开"/>
+    </form>
+</fieldset>
+
+<a href="../people/employeeManageView.do">返回</a>
+<p th:text="${result}"></p>
+</body>
+</html>

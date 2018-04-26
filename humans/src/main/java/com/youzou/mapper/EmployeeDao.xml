@@ -2,9 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.youzou.mapper.EmployeeDao">
     <insert id="addEmployee">
-        INSERT INTO T_EMPLOYEE (EMP_DEPT_ID, EMP_POSI_ID,EMP_GU_ID, EMP_PASS, EMP_PHONE,EMP_NAME)
-        VALUES (#{empDeptId},#{empPosiId},#{guest.guId},#{empPass},#{empPhone},#{empName})
+        INSERT INTO T_EMPLOYEE (EMP_DEPT_ID, EMP_POSI_ID,EMP_GU_ID, EMP_PASS, EMP_PHONE,EMP_JOIN_DATE)
+        VALUES (#{empDeptId},#{empPosiId},#{guest.guId},#{empPass},#{empPhone},#{empJoinDate})
     </insert>
+    <update id="becomeRegular">
+        UPDATE T_EMPLOYEE SET EMP_STAT=0 WHERE EMP_ID=#{empId}
+    </update>
+    <update id="changePosition">
+        UPDATE T_EMPLOYEE SET EMP_DEPT_ID=#{empDeptId},EMP_POSI_ID=#{empPosiId} WHERE EMP_ID=#{empId}
+    </update>
+    <update id="leavePosition">
+        UPDATE T_EMPLOYEE SET EMP_STAT=2,EMP_LEA_REA=#{empLeaRea} WHERE EMP_ID=#{empId}
+    </update>
     <select id="login" resultMap="employee">
         SELECT * FROM T_EMPLOYEE WHERE EMP_PHONE=#{empPhone} AND EMP_PASS=#{empPass}
     </select>
@@ -13,6 +22,9 @@
     </select>
     <select id="queryByPosiId" resultMap="employee">
         SELECT * FROM T_EMPLOYEE WHERE EMP_POSI_ID=#{posiId}
+    </select>
+    <select id="queryById" resultMap="employee">
+        SELECT * FROM T_EMPLOYEE WHERE EMP_ID=${empId}
     </select>
     <resultMap id="employee" type="com.youzou.domain.Employee">
         <id property="empId" column="emp_id"/>

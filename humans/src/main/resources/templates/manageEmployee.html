@@ -14,11 +14,10 @@
                     data:{"deptId":$(this).val()},
                     success:function (obj) {
                         $('#position').empty();
-                        $('#position').append("<option>-</option>");
+                        $('#position').append("<option>--</option>");
                         for (var i=0;i<obj.length;i++){
                             $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
                         }
-                        console.log(obj);
                         emp();
                     }
                 })
@@ -30,9 +29,8 @@
                     data:{"posiName":$(this).val()},
                     success:function (obj) {
                         $('#employee').empty();
-                        $('#employee').append("<option>-</option>");
+                        $('#employee').append("<option>--</option>");
                         $emps=obj;
-                        console.log($emps);
                         for (var i=0;i<obj.length;i++){
                             $('#employee').append("<option th:value="+obj[i].empId+">"+obj[i].resume.resName+"</option>");
                         }
@@ -59,11 +57,12 @@
             $('.td7').empty();
             $('.td8').empty();
             $('.td9').empty();
+            $('.td10').empty();
         }
         function add($emp) {
             $('.td1').empty().append($emp.resume.resName);
             $('.td2').empty().append($emp.resume.resGend==0?'男':'女');
-            $('.td3').empty().append($emp.resume.resBirth.substring(0,9));
+            $('.td3').empty().append($emp.resume.resBirth.substring(0,10));
             $('.td4').empty().append($emp.empPhone);
             $('.td5').empty().append($emp.resume.resEmail);
             $('.td6').empty().append($emp.resume.resLoc);
@@ -71,16 +70,25 @@
             switch ($emp.empStat){
                 case 0:
                     $('.td7').append('在职');
+                    $('.td10').empty().append("<form action='../people/changePositionView.do'>"+
+                        "<input type='hidden' name='empId' value='"+$emp.empId+"'/>" +
+                        "<input type='submit' value='岗位调动'/></form>");
                     break;
                 case 1:
                     $('.td7').append('试用期');
+                    $('.td10').empty().append("<form action='../people/becomeRegular.do' method='post'>" +
+                        "<input type='hidden' name='empId' value='"+$emp.empId+"'/>" +
+                        "<input type='submit' value='试用期转正'/></form>"+
+                        "<form action='../people/changePositionView.do'>"+
+                        "<input type='hidden' name='empId' value='"+$emp.empId+"'/>" +
+                        "<input type='submit' value='岗位调动'/></form>");
                     break;
                 case 2:
                     $('.td7').append('离职');
-                    $('.td8').empty().append($emp.empLeaRea);
+                    $('.td8').empty().append("<th>离职原因</th><td>"+$emp.empLeaRea+"</td>");
                     break;
             }
-            $('.td9').empty().append($emp.empJoinDate.substring(0,9));
+            $('.td9').empty().append($emp.empJoinDate.substring(0,10));
         }
 
     </script>
@@ -123,14 +131,19 @@
     <tr>
         <th>籍贯</th><td class="td6"></td>
     </tr>
-    <tr th:switch="${employees[0]?.empStat}">
+    <tr>
         <th>员工状态</th>
         <td class="td7"></td>
     </tr>
-    <tr th:if="${employees[0]?.empStat==2}">
-        <th>离职原因</th><td class="td8"></td>
+    <tr class="td8">
+    </tr>
+    <tr>
+        <td colspan="2" class="td10">
+
+        </td>
     </tr>
 </table>
+<p th:text="${beReguResult}"></p>
 <!--<table border="1">
     <tr>
         <th>姓名</th><td class="td1" th:text="${employees[0]?.resume?.resName}"></td>

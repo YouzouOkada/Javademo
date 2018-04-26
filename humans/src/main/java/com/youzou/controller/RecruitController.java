@@ -1,13 +1,7 @@
 package com.youzou.controller;
 
-import com.youzou.domain.Position;
-import com.youzou.domain.Recruit;
-import com.youzou.domain.ResRecRel;
-import com.youzou.domain.Resume;
-import com.youzou.service.LetterService;
-import com.youzou.service.PositionService;
-import com.youzou.service.RecruitService;
-import com.youzou.service.ResRecRelService;
+import com.youzou.domain.*;
+import com.youzou.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +22,8 @@ public class RecruitController {
     private RecruitService recruitService;
     @Autowired
     private PositionService positionService;
+    @Autowired
+    private DepartmentService departmentService;
     @Autowired
     private ResRecRelService resRecRelService;
     @Autowired
@@ -52,7 +48,9 @@ public class RecruitController {
      */
     @RequestMapping("recruitManage.do")
     public String recruitManage(Model model){
-        List<Position> positions=positionService.queryAll();
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
         model.addAttribute("positions",positions);
         List<Recruit> recruits=recruitService.queryAll();
         model.addAttribute("recruits",recruits);
@@ -67,8 +65,15 @@ public class RecruitController {
      */
     @RequestMapping("delRecruit.do")
     public String delRecruit(Recruit recruit,Model model){
-        recruitService.delRecruit(recruit);
-        List<Position> positions=positionService.queryAll();
+        boolean flag=recruitService.delRecruit(recruit);
+        if (flag){
+            model.addAttribute("result","删除完成");
+        }else {
+            model.addAttribute("result","删除失败");
+        }
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
         model.addAttribute("positions",positions);
         List<Recruit> recruits=recruitService.queryAll();
         model.addAttribute("recruits",recruits);
@@ -82,8 +87,18 @@ public class RecruitController {
      */
     @RequestMapping("addRecruit.do")
     public String addRecruit(Recruit recruit,Model model){
-        recruitService.addRecruit(recruit);
-        model.addAttribute("success","发布成功");
+        boolean flag=recruitService.addRecruit(recruit);
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
+        model.addAttribute("positions",positions);
+        List<Recruit> recruits=recruitService.queryAll();
+        model.addAttribute("recruits",recruits);
+        if (flag){
+            model.addAttribute("result","发布成功");
+        }else {
+            model.addAttribute("result","发布失败");
+        }
         return "manageRecruit";
     }
 

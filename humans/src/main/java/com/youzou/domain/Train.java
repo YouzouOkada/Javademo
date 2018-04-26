@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by 葉蔵 on 2018/4/20.
@@ -13,13 +14,12 @@ public class Train implements Serializable {
     private long traId;//培训编号
     private String traTheme;//培训主题
     private String traCon;//培训内容
-    private int traCount;//培训人数
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date traStart;//开始时间
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date traEnd;//结束时间
     private String traLoc;//培训地点
-
+    private List<Employee> employees;//参加员工
     public Train() {
     }
 
@@ -48,14 +48,6 @@ public class Train implements Serializable {
         this.traCon = traCon;
     }
 
-    public int getTraCount() {
-        return traCount;
-    }
-
-    public void setTraCount(int traCount) {
-        this.traCount = traCount;
-    }
-
     public Date getTraStart() {
         return traStart;
     }
@@ -80,16 +72,24 @@ public class Train implements Serializable {
         this.traLoc = traLoc;
     }
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
     @Override
     public String toString() {
         return "Train{" +
                 "traId=" + traId +
                 ", traTheme='" + traTheme + '\'' +
                 ", traCon='" + traCon + '\'' +
-                ", traCount=" + traCount +
                 ", traStart=" + traStart +
                 ", traEnd=" + traEnd +
                 ", traLoc='" + traLoc + '\'' +
+                ", employees=" + employees +
                 '}';
     }
 }

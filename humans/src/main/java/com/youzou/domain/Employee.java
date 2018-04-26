@@ -34,6 +34,10 @@ public class Employee implements Serializable {
         this.empPhone = empPhone;
     }
 
+    public Employee(long empId) {
+        this.empId = empId;
+    }
+
     public long getEmpId() {
         return empId;
     }
@@ -143,7 +147,6 @@ public class Employee implements Serializable {
                 ", empAttend=" + empAttend +
                 ", guest=" + guest +
                 ", letters=" + letters +
-                ", resume=" + resume +
                 ", empJoinDate=" + empJoinDate +
                 '}';
     }

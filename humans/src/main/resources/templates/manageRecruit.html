@@ -4,9 +4,23 @@
     <meta charset="UTF-8"/>
     <title>管理招聘信息</title>
     <link rel="stylesheet" type="text/css" href="/css/base.css"/>
-    <script type="text/javascript" src="jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
     <script th:inline="javascript">
         $(function () {
+            $('#department').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../position/posiLinkage.do",
+                    data:{"deptId":$(this).val()},
+                    success:function (obj) {
+                        $('#position').empty();
+                        $('#position').append("<option>--</option>");
+                        for (var i=0;i<obj.length;i++){
+                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                        }
+                    }
+                })
+            });
         });
     </script>
 </head>
@@ -48,7 +62,7 @@
                 <td th:text="${recruit?.recReq}"></td>
                 <td>
                     <form action="../recruit/delRecruit.do" method="post">
-                        <input type="hidden" th:value="${recruit?.recId}"/>
+                        <input type="hidden" th:value="${recruit?.recId}" name="recId"/>
                         <input type="submit" value="删除"/>
                     </form>
                 </td>
@@ -57,26 +71,30 @@
         </table>
         <form action="addRecruit.do" method="post">
             <p>
-                招聘职位：<select name="recPosiName" ID="posiName">
-                <option th:each="position:${positions}" th:value="${position?.posiName}" th:text="${position?.posiName}"/>
-            </select>
+                招聘职位：
+                <select name="departId" id="department" required="required">
+                    <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+                </select>
+                <select name="recPosiName" id="position" required="required">
+                    <option th:each="position:${positions}" th:value="${position?.posiName}" th:text="${position?.posiName}"/>
+                </select>
             </p>
             <p>
-                薪资：<input type="number" min="3000" step="500"/>
+                薪资：<input type="number" min="3000" step="500" name="recSal" required="required"/>
             </p>
             <p>
-                待遇：<input name="recDeal"/>
+                待遇：<input name="recDeal" required="required"/>
             </p>
             <p>
-                招聘人数：<input type="number" name="recNum" min="1"/>
+                招聘人数：<input type="number" name="recNum" min="1" required="required"/>
             </p>
             <p>
-                招聘条件：<input name="recReq"/>
+                招聘条件：<input name="recReq" required="required"/>
             </p>
             <p>
                 <button type="submit">发布</button>
             </p>
-            <p th:text="${success}"></p>
+            <p th:text="${result}"></p>
         </form>
     </article>
     <footer>

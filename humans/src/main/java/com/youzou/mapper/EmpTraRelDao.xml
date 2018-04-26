@@ -3,8 +3,23 @@
 <mapper namespace="com.youzou.mapper.EmpTraRelDao">
     <resultMap id="empTraRel" type="com.youzou.domain.EmpTraRel">
         <id property="etrId" column="etr_id"/>
-        <result property="etrEmpId" column="etr_emp_id"/>
-        <result property="etrTraId" column="etr_tra_id"/>
         <result property="etrTraStat" column="etr_tra_stat"/>
+        <association property="employee" column="etr_emp_id" javaType="com.youzou.domain.Employee" select="com.youzou.mapper.EmployeeDao.queryById"/>
+        <association property="train" column="etr_tra_id" javaType="com.youzou.domain.Train" select="com.youzou.mapper.TrainDao.queryById"/>
     </resultMap>
+    <insert id="addEmpTraRel">
+        INSERT INTO T_EMP_TRA_REL (ETR_EMP_ID, ETR_TRA_ID)
+        VALUES (#{employee.empId},#{train.traId})
+    </insert>
+    <update id="updateTrain">
+        UPDATE T_EMP_TRA_REL SET ETR_TRA_STAT=1 WHERE ETR_TRA_ID=#{traId}
+    </update>
+    <select id="queryByTrain" resultMap="com.youzou.mapper.EmployeeDao.employee">
+        SELECT * FROM T_EMPLOYEE WHERE EMP_ID IN
+        (SELECT ETR_EMP_ID FROM T_EMP_TRA_REL WHERE ETR_TRA_ID=#{traId})
+    </select>
+    <select id="queryUnfinished" resultMap="com.youzou.mapper.TrainDao.train">
+        SELECT * FROM T_TRAIN WHERE TRA_ID IN
+        (SELECT ETR_TRA_ID FROM T_EMP_TRA_REL WHERE ETR_TRA_STAT=0)
+    </select>
 </mapper>

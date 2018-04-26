@@ -20,4 +20,12 @@ public interface EmployeeDao {
     List<Employee> queryByDeptId(Department department);
 
     List<Employee> queryByPosiId(Position position);
+
+    Employee queryById(Employee employee);
+
+    boolean becomeRegular(Employee employee);
+
+    boolean changePosition(Employee employee);
+
+    boolean leavePosition(Employee employee);
 }

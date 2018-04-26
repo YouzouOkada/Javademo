@@ -37,7 +37,7 @@
             <table border="1">
                 <tr>
                     <td>姓名</td>
-                    <td><input name="resName"/></td>
+                    <td><input name="resName" required="required"/></td>
                     <td>性别</td>
                     <td>
                         <input type="radio" name="resGend" value="0" checked="checked"/>男
@@ -48,13 +48,13 @@
                 </tr>
                 <tr>
                     <td>出生日期</td>
-                    <td><input name="resBirth" type="date"/></td>
+                    <td><input name="resBirth" type="date" required="required"/></td>
                     <td>手机号码</td>
                     <td>
                         <input th:value="${session.guest?.guPhone}" th:readonly="readonly" name="resPhone"/>
                     </td>
                     <td>电子邮箱</td>
-                    <td><input name="resEmail"/></td>
+                    <td><input name="resEmail" required="required"/></td>
                 </tr>
                 <tr>
                     <td>教育经历</td>
@@ -70,11 +70,11 @@
                         </select>
                     </td>
                     <td>工作经验</td>
-                    <td><input name="resExp" type="number" min="0" max="50" />年</td>
+                    <td><input name="resExp" type="number" min="0" max="50" required="required" />年</td>
                 </tr>
                 <tr>
                     <td>自我简介</td>
-                    <td colspan="5"><input name="resDesc" style="width: 500px"/></td>
+                    <td colspan="5"><input name="resDesc" style="width: 500px" required="required"/></td>
                 </tr>
             </table>
             <input type="hidden" name="resGuId" th:value="${session.guest?.guId}"/>
@@ -87,24 +87,24 @@
             <table border="1">
                 <tr>1l
                     <td>姓名</td>
-                    <td><input name="resName" th:value="${resume?.resName}"/></td>
+                    <td><input name="resName" th:value="${resume?.resName}" required="required"/></td>
                     <td>性别</td>
                     <td>
                         <input type="radio" name="resGend" th:value="0" th:selected="selected"/>男
                         <input type="radio" name="resGend" th:value="1"/>女
                     </td>
                     <td>籍贯</td>
-                    <td><input name="resLoc" th:value="${resume?.resLoc}"/></td>
+                    <td><input name="resLoc" th:value="${resume?.resLoc}"  required="required"/></td>
                 </tr>
                 <tr>
                     <td>出生日期</td>
-                    <td><input name="resBirth" type="date" th:value="${resume?.resBirth}"/></td>
+                    <td><input name="resBirth" type="date" th:value="${resume?.resBirth}" required="required"/></td>
                     <td>手机号码</td>
                     <td>
-                        <input th:value="${session.guest?.guPhone}" th:readonly="readonly" name="resPhone"/>
+                        <input th:value="${session.guest?.guPhone}" th:readonly="readonly" name="resPhone" required="required"/>
                     </td>
                     <td>电子邮箱</td>
-                    <td><input name="resEmail" th:value="${resume?.resEmail}"/></td>
+                    <td><input name="resEmail" th:value="${resume?.resEmail}" required="required"/></td>
                 </tr>
                 <tr>
                     <td>教育经历</td>
@@ -127,11 +127,11 @@
                         </select>
                     </td>
                     <td>工作经验</td>
-                    <td><input name="resExp" type="number" min="0" max="50" th:value="${resume?.resExp}"/>年</td>
+                    <td><input name="resExp" type="number" min="0" max="50" th:value="${resume?.resExp}" required="required"/>年</td>
                 </tr>
                 <tr>
                     <td>自我简介</td>
-                    <td colspan="5"><input name="resDesc" th:value="${resume?.resDesc}" style="width: 500px"/></td>
+                    <td colspan="5"><input name="resDesc" th:value="${resume?.resDesc}" style="width: 500px" required="required"/></td>
                 </tr>
             </table>
             <input type="hidden" name="resGuId" th:value="${session.guest?.guId}"/>

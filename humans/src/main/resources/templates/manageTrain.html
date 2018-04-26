@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>培训管理</title>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            setMin();
+            $('#start').change(function () {
+                $('#end').attr("min",$(this).val());
+            });
+            $('#end').change(function () {
+                $('#start').attr("max",$(this).val());
+            });
+            $('#department').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../position/posiLinkage.do",
+                    data:{"deptId":$(this).val()},
+                    success:function (obj) {
+                        $('#position').empty();
+                        $('#position').append("<option>--</option>");
+                        for (var i=0;i<obj.length;i++){
+                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                        }
+                    }
+                })
+            });
+            $('#position').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../people/empLinkage.do",
+                    data:{"posiName":$(this).val()},
+                    success:function (obj) {
+                        $('#employee').empty();
+                        for (var i=0;i<obj.length;i++){
+                            console.log(obj[i].resume.resName);
+                            $('#employee').append("<input type='checkbox' value="+obj[i].empId+" name='empId'/><span>"+obj[i].resume.resName+"</span>")
+                        }
+                    }
+                })
+            });
+        });
+        function setMin() {
+            var $date=new Date();
+            var $year=$date.getFullYear();
+            var $month=$date.getMonth()+1;
+            if($month<10)$month='0'+$month;
+            var $day=$date.getDate();
+            if($day<10)$day='0'+$day;
+            var $min=$year+"-"+$month+"-"+$day;
+            $('#start').attr("min",$min);
+            $('#end').attr("min",$min);
+        }
+    </script>
+</head>
+<body>
+<form action="../train/addTrain.do" method="post">
+    <p>
+        培训主题：<input name="traTheme" required="required"/>
+    </p>
+    <p>
+        培训内容：<input name="traCon" required="required"/>
+    </p>
+    <p>
+        开始时间：<input type="date" name="traStart" required="required" id="start"/>
+    </p>
+    <p>
+        结束时间：<input type="date" name="traEnd" id="end" required="required"/>
+    </p>
+    <p>
+        培训地点：<input name="traLoc" required="required"/>
+    </p>
+    <p>
+        参加人员：
+        部门：
+        <select id="department" name="deptId">
+            <option>--</option>
+            <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+        </select>
+        职位：
+        <select id="position" name="posiId">
+            <option>--</option>
+        </select>
+    </p>
+    <div>
+        员工
+        <div id="employee"></div>
+    </div>
+    <p>
+        <input type="submit" value="添加培训信息"/>
+    </p>
+    <p th:text="${result}"></p>
+</form>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>培训主题</th><th>培训内容</th><th>开始时间</th><th>结束时间</th><th>培训地点</th><th>参加人员</th><th>修改信息</th><th>修改参加人员</th><th>删除</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="train:${trains}">
+                <td>
+                    <input readonly="readonly" th:value="${train?.traTheme}"/>
+                </td>
+                <td>
+                    <input readonly="readonly" th:value="${train?.traCon}"/>
+                </td>
+                <td>
+                    <input readonly="readonly" th:value="${#dates.format(train?.traStart,'yyyy年MM月dd日')}"/>
+                </td>
+                <td>
+                    <input readonly="readonly" th:value="${#dates.format(train?.traEnd,'yyyy年MM月dd日')}"/>
+                </td>
+                <td>
+                    <input readonly="readonly" th:value="${train?.traLoc}"/>
+                </td>
+                <td>
+                    <span th:each="employee:${train?.employees}" th:text="${employee?.resume?.resName+'  '}"></span>
+                </td>
+                <td>
+                    <form action="../train/updateTrain.do" method="post">
+                        <input type="hidden" th:value="${train?.traId}" name="traId"/>
+                        <input type="submit" value="修改信息"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="../train/updateTrainMemberView.do" method="post">
+                        <input type="hidden" th:value="${train?.traId}" name="traId"/>
+                        <input type="submit" value="修改人员"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="../train/delTrain.do" method="post">
+                        <input type="hidden" th:value="${train?.traId}" name="traId"/>
+                        <input type="submit" value="删除"/>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

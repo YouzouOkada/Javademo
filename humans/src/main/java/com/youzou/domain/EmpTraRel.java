@@ -8,8 +8,8 @@ import java.io.Serializable;
  */
 public class EmpTraRel implements Serializable {
     private long etrId;//关系编号
-    private long etrEmpId;//员工编号
-    private long etrTraId;//培训编号
+    private Employee employee;//员工信息
+    private Train train;//培训信息
     private int etrTraStat;//培训状态  0:未完成 1:完成
 
     public EmpTraRel() {
@@ -24,22 +24,6 @@ public class EmpTraRel implements Serializable {
         this.etrId = etrId;
     }
 
-    public long getEtrEmpId() {
-        return etrEmpId;
-    }
-
-    public void setEtrEmpId(long etrEmpId) {
-        this.etrEmpId = etrEmpId;
-    }
-
-    public long getEtrTraId() {
-        return etrTraId;
-    }
-
-    public void setEtrTraId(long etrTraId) {
-        this.etrTraId = etrTraId;
-    }
-
     public int getEtrTraStat() {
         return etrTraStat;
     }
@@ -48,12 +32,28 @@ public class EmpTraRel implements Serializable {
         this.etrTraStat = etrTraStat;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Train getTrain() {
+        return train;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
+    }
+
     @Override
     public String toString() {
         return "EmpTraRel{" +
                 "etrId=" + etrId +
-                ", etrEmpId=" + etrEmpId +
-                ", etrTraId=" + etrTraId +
+                ", employee=" + employee +
+                ", train=" + train +
                 ", etrTraStat=" + etrTraStat +
                 '}';
     }

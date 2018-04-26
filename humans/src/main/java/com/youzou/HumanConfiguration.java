@@ -18,7 +18,7 @@ public class HumanConfiguration implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor()).addPathPatterns("/p").
+        registry.addInterceptor(loginInterceptor()).addPathPatterns("/interview/**").
         excludePathPatterns("/login","/login.do","/toLogin");
     }
 }

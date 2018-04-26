@@ -178,18 +178,112 @@ public class PeopleController {
     @RequestMapping("/employeeManageView.do")
     public String employeeManageView(Model model){
         List<Department> departments=departmentService.queryAll();
-        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
-        List<Employee> employees=employeeService.queryByPosiId(positions.get(0));
+//        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
+//        List<Employee> employees=employeeService.queryByPosiId(positions.get(0));
         model.addAttribute("departments",departments);
-        model.addAttribute("positions",positions);
-        model.addAttribute("employees",employees);
+//        model.addAttribute("positions",positions);
+//        model.addAttribute("employees",employees);
         return "manageEmployee";
     }
 
+    /**
+     * 员工信息联动
+     * @param position
+     * @return
+     */
     @RequestMapping("/empLinkage.do")
     @ResponseBody
     public List<Employee> empLinkage(Position position){
         return employeeService.queryByPosiId(positionService.queryByName(position));
     }
 
+    /**
+     * 试用期转正
+     * @param employee
+     * @param model
+     * @return
+     */
+    @RequestMapping("/becomeRegular.do")
+    public String becomeRegular(Employee employee,Model model){
+        Employee employee1=employeeService.queryById(employee);
+        long difference=Math.abs((employee1.getEmpJoinDate().getTime()-new Date().getTime())/(60*60*24*1000));
+        System.out.println(difference);
+        if (difference<30){
+            model.addAttribute("beReguResult","试用期未满一个月，不能转正");
+        }else {
+            boolean flag=employeeService.becomeRegular(employee);
+            if (flag){
+                model.addAttribute("beReguResult","转正完成");
+            }else {
+                model.addAttribute("beReguResult","转正失败");
+            }
+
+        }
+        //返回视图
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        return "manageEmployee";
+    }
+
+    /**
+     * 转岗页面
+     * @param employee
+     * @param model
+     * @return
+     */
+    @RequestMapping("/changePositionView.do")
+    public String changePositionView(Employee employee,Model model){
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
+        model.addAttribute("positions",positions);
+        model.addAttribute("employee",employee);
+        return "changePosition";
+    }
+
+
+    /**
+     * 转岗
+     * @param position
+     * @param employee
+     * @param model
+     * @return
+     */
+    @RequestMapping("/changePosition.do")
+    public String changePosition(Position position,Employee employee,Model model){
+        employee.setEmpPosiId(positionService.queryByName(position).getPosiId());
+        boolean flag=employeeService.changePosition(employee);
+        if (flag){
+            model.addAttribute("result","调动完成");
+        }else {
+            model.addAttribute("result","调动失败");
+        }
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
+        Employee employee1=employeeService.queryById(employee);
+        model.addAttribute("employee",employee1);
+        return "changePosition";
+    }
+
+    @RequestMapping("/leavePosition.do")
+    public String leavePosition(Employee employee,Model model){
+        if ("".equals(employee.getEmpLeaRea())){
+            model.addAttribute("result","请填写离职原因");
+            return "changePosition";
+        }
+        System.out.println(employee);
+        boolean flag=employeeService.leavePosition(employee);
+        if (flag){
+            model.addAttribute("result","此人已离开");
+        }else {
+            model.addAttribute("result","他还走不了");
+        }
+        List<Department> departments=departmentService.queryAll();
+        model.addAttribute("departments",departments);
+        List<Position> positions=positionService.queryByDeptId(departments.get(0).getDeptId());
+        Employee employee1=employeeService.queryById(employee);
+        model.addAttribute("employee",employee1);
+        return "changePosition";
+    }
 }
