@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>奖惩信息管理</title>
+    <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            setMax();
+            $('#start').change(function () {
+                $('#end').attr("min",$(this).val());
+            });
+            $('#end').change(function () {
+                $('#start').attr("max",$(this).val());
+            });
+            $('#department').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../position/posiLinkage.do",
+                    data:{"deptId":$(this).val()},
+                    success:function (obj) {
+                        $('#position').empty();
+                        $('#position').append("<option>--</option>");
+                        for (var i=0;i<obj.length;i++){
+                            $('#position').append("<option value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                        }
+                    }
+                })
+            });
+            $('#position').change(function () {
+                $.ajax({
+                    type:"post",
+                    url:"../people/empLinkage.do",
+                    data:{"posiId":$(this).val()},
+                    success:function (obj) {
+                        $('#employee').empty();
+                        for (var i=0;i<obj.length;i++){
+                            $('#employee').append("<input type='radio' value="+obj[i].empId+" name='empId'/><span>"+obj[i].resume.resName+"</span>")
+                        }
+                        enableclick();
+                    }
+                })
+            });
+            $(".submit").click(function(){
+                var $val=$('input:radio[name="empId"]:checked').val();
+                if($val==null){
+                    alert("请选择操作对象!");
+                    return false;
+                }
+            });
+
+        });
+        function setMax() {
+            var $date=new Date();
+            var $year=$date.getFullYear();
+            var $month=$date.getMonth()+1;
+            if($month<10)$month='0'+$month;
+            var $day=$date.getDate();
+            if($day<10)$day='0'+$day;
+            var $max=$year+"-"+$month+"-"+$day;
+            $('#start').attr("max",$max);
+            $('#end').attr("max",$max);
+        }
+        function enableclick() {
+            $('input:radio[name="empId"]').click(function () {
+                $('.empId').val($(this).val());
+                console.log($('.empId').val())
+            });
+        }
+    </script>
+</head>
+<body>
+<div>
+    <p>
+        操作对象：
+    </p>
+    部门：
+    <select id="department" name="deptId">
+        <option>--</option>
+        <option th:each="dept:${departments}" th:value="${dept?.deptId}" th:text="${dept?.deptName}"></option>
+    </select>
+    职位：
+    <select id="position" name="posiId">
+        <option>--</option>
+    </select>
+    <div>
+        员工：
+        <div id="employee"></div>
+    </div>
+</div>
+
+添加纪录：
+<form action="../reward/addreward.do" method="post">
+        <p>
+            奖惩金额： <input type="number" step="any" required="required" name="rapMoney"/>
+        </p>
+        <p>
+            原因：<input name="rapRea" required="required"/>
+        </p>
+        <p>
+            <input type="hidden" name="empId" class="empId">
+            <input type="submit" value="添加" class="submit"/>
+        </p>
+</form>
+<p th:text="${addResult}">
+</p>
+查看记录：
+<div>
+    <form action="../reward/queryreward.do" method="post">
+        开始时间：<input type="date" id="start" name="start" required="required"/>
+        结束时间：<input type="date" id="end" name="end" required="required"/>
+        <div>
+            <input type="hidden" name="empId" class="empId">
+            <input type="submit" value="查询" class="submit"/>
+        </div>
+    </form>
+</div>
+<table border="1">
+    <tr>
+        <th>奖惩时间</th><th>奖惩金额</th><th>原因</th>
+    </tr>
+    <tr th:each="rew:${rewPuns}">
+        <td th:text="${rew?.rapDate}"></td>
+        <td th:text="${rew?.rapMoney}"></td>
+        <td th:text="${rew?.rapRea}"></td>
+    </tr>
+</table>
+</body>
+</html>

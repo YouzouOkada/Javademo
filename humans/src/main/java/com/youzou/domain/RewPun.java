@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class RewPun implements Serializable {
     private long rapId;//奖惩编号
-    private long rapEmpId;//员工编号
+    private Employee employee;//员工编号
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date rapDate;//发生时间
     private double rapMoney;//金额
@@ -27,14 +27,6 @@ public class RewPun implements Serializable {
 
     public void setRapId(long rapId) {
         this.rapId = rapId;
-    }
-
-    public long getRapEmpId() {
-        return rapEmpId;
-    }
-
-    public void setRapEmpId(long rapEmpId) {
-        this.rapEmpId = rapEmpId;
     }
 
     public Date getRapDate() {
@@ -61,11 +53,19 @@ public class RewPun implements Serializable {
         this.rapRea = rapRea;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public String toString() {
         return "RewPun{" +
                 "rapId=" + rapId +
-                ", rapEmpId=" + rapEmpId +
+                ", employee=" + employee +
                 ", rapDate=" + rapDate +
                 ", rapMoney=" + rapMoney +
                 ", rapRea='" + rapRea + '\'' +

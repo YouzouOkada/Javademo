@@ -194,7 +194,7 @@ public class PeopleController {
     @RequestMapping("/empLinkage.do")
     @ResponseBody
     public List<Employee> empLinkage(Position position){
-        return employeeService.queryByPosiId(positionService.queryByName(position));
+        return employeeService.queryByPosiId(position);
     }
 
     /**

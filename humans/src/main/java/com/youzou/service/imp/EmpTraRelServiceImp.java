@@ -31,4 +31,9 @@ public class EmpTraRelServiceImp implements EmpTraRelService {
     public List<Train> queryUnfinished() {
         return empTraRelDao.queryUnfinished();
     }
+
+    @Override
+    public boolean delEmpTraRel(EmpTraRel empTraRel) {
+        return empTraRelDao.delEmpTraRel(empTraRel);
+    }
 }

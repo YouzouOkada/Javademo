@@ -6,6 +6,8 @@
     <script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
     <script th:inline="javascript">
         $(function () {
+            setMin();
+            already();
             $('#department').change(function () {
                 $.ajax({
                     type:"post",
@@ -15,7 +17,7 @@
                         $('#position').empty();
                         $('#position').append("<option>--</option>");
                         for (var i=0;i<obj.length;i++){
-                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                            $('#position').append("<option value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
                         }
                     }
                 })
@@ -24,18 +26,15 @@
                 $.ajax({
                     type:"post",
                     url:"../people/empLinkage.do",
-                    data:{"posiName":$(this).val()},
+                    data:{"posiId":$(this).val()},
                     success:function (obj) {
                         $('#employee').empty();
                         var $train=[[${train}]];
                         var $employees=$train.employees;
-                        console.log($employees);
                         for (var i=0;i<obj.length;i++){
-                            console.log(obj[i].resume.resName);
                             var flag=0;
                             for (var j=0;j<$employees.length;j++){
                                 var $employee=$employees[j];
-                                console.log($employee.empId);
                                 if($employee.empId==obj[i].empId){
                                     flag=1;
                                 }
@@ -43,7 +42,7 @@
                             if(flag==0){
                                 $('#employee').append("<input type='checkbox' value="+obj[i].empId+" name='empId' id='checkbox"+i+"'/><span>"+obj[i].resume.resName+"</span>")
                             }else {
-                                $('#employee').append("<input type='checkbox' value="+obj[i].empId+" name='empId' id='checkbox"+i+"' checked='checked'/><span>"+obj[i].resume.resName+"</span>")
+//                                $('#employee').append("<input type='checkbox' value="+obj[i].empId+" name='empId' id='checkbox"+i+"' checked='checked'/><span>"+obj[i].resume.resName+"</span>")
                                 flag=0;
                             }
                         }
@@ -51,10 +50,67 @@
                 })
             });
         });
+        function already() {
+            var $employees=[[${train}]].employees;
+            for (var i=0;i<$employees.length;i++){
+                $('#employee1').append("<input type='checkbox' value="+$employees[i].empId+" name='empId' id='checkbox"+i+"' checked='checked'/><span>"+$employees[i].resume.resName+"</span>")
+            }
+        }
+        function setMin() {
+            var $date=new Date();
+            var $year=$date.getFullYear();
+            var $month=$date.getMonth()+1;
+            if($month<10)$month='0'+$month;
+            var $day=$date.getDate();
+            if($day<10)$day='0'+$day;
+            var $min=$year+"-"+$month+"-"+$day;
+            $('#start').attr("min",$min);
+            $('#end').attr("min",$min);
+        }
     </script>
 </head>
 <body>
-<form action="updateTrainMember.do" method="post">
+<form action="../train/updateTrain.do" method="post">
+    <table>
+        <tr>
+            <th>培训主题</th>
+            <td>
+                <input th:value="${train?.traTheme}" name="traTheme" required="required"/>
+            </td>
+        </tr>
+        <tr>
+            <th>培训内容</th>
+            <td>
+                <input  name="traCon" th:value="${train?.traCon}" required="required"/>
+            </td>
+        </tr>
+        <tr>
+            <th>开始时间</th>
+            <td>
+                <input name="traStart" type="date" id="start" defaultvalue="2018-05-05"/>
+            </td>
+        </tr>
+        <tr>
+            <th>结束时间</th>
+            <td>
+                <input name="traEnd" type="date" id="end"/>
+            </td>
+        </tr>
+        <tr>
+            <th>培训地点</th>
+            <td>
+                <input th:value="${train?.traLoc}" name="traLoc" required="required"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="hidden" th:value="${train?.traId}" name="traId"/>
+                <input type="submit" value="修改信息"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<form action="../train/updateTrainMember.do" method="post">
     参加人员：
     部门：
     <select id="department" name="deptId">
@@ -66,6 +122,11 @@
         <option>--</option>
     </select>
     <div id="employee"></div>
+    <p id="employee1">已参加人员：</p>
+    <p>
+        <input type="hidden" th:value="${train?.traId}" name="traId"/>
+        <input type="submit" value="修改人员"/>
+    </p>
 </form>
 
 </body>

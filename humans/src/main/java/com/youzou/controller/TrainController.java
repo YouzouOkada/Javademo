@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -93,8 +94,9 @@ public class TrainController {
      * @return
      */
     @RequestMapping("/updateTrain.do")
-    public String updateTrain(Model model){
-
+    public String updateTrain(Train train,Model model){
+        System.out.println(train);
+        trainService.updateTrain(train);
         trainView(model);
         return "manageTrain";
     }
@@ -105,8 +107,49 @@ public class TrainController {
      * @return
      */
     @RequestMapping("/updateTrainMember.do")
-    public String updateTrainMember(Model model){
-
+    public String updateTrainMember(@RequestParam("empId") String[] empIds,Train train,Model model){
+        train=trainService.queryById(train);
+        System.out.println(train);
+        List<Employee> employees=train.getEmployees();//就参训人员列表
+        List<Employee> employeeList=new ArrayList<>();//新参训人员列表
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日");
+        for (String empId:empIds){
+            long eId=Long.parseLong(empId);
+            Employee employee=employeeService.queryById(new Employee(eId));
+            if(employees.contains(employee)){
+                //仍需参加的人
+                employees.remove(employee);
+                continue;
+            }else {
+                //新增加的人
+                EmpTraRel empTraRel=new EmpTraRel();
+                empTraRel.setTrain(train);
+                empTraRel.setEmployee(employee);
+                empTraRelService.addEmpTraRel(empTraRel);
+                Letter letter=new Letter();
+                letter.setLetDate(new Date());
+                String con="你有需要参加的培训，开始时间："+sdf.format(train.getTraStart())+
+                        "，结束时间："+sdf.format(train.getTraEnd())+"，培训地点："+train.getTraLoc();
+                letter.setLetCon(con);
+                letter.setLetRecId(employee.getEmpId());
+                letter.setLetType(1);
+                letterService.addLetter(letter);
+            }
+            employeeList.add(employee);
+        }
+        //被取消的人
+        for (Employee e:employees){
+            EmpTraRel empTraRel=new EmpTraRel();
+            empTraRel.setTrain(train);
+            empTraRel.setEmployee(e);
+            empTraRelService.delEmpTraRel(empTraRel);
+            Letter letter=new Letter();
+            letter.setLetDate(new Date());
+            letter.setLetCon("你的培训已取消");
+            letter.setLetRecId(e.getEmpId());
+            letter.setLetType(1);
+            letterService.addLetter(letter);
+        }
         trainView(model);
         return "manageTrain";
     }
@@ -128,13 +171,15 @@ public class TrainController {
     @RequestMapping("/delTrain.do")
     public String delTrain(Train train,Model model){
         Train train1=trainService.queryById(train);
-        Date end=train1.getTraEnd();
         List<Train> trains=empTraRelService.queryUnfinished();
         model.addAttribute("trains",trains);
         List<Department> departments=departmentService.queryAll();
         model.addAttribute("departments",departments);
-        if(end.getTime()-new Date().getTime()>0){
+        if(train1.getTraEnd().before(new Date())){
             model.addAttribute("result","该培训还未结束，不能删除");
+            return "manageTrain";
+        }else if (train1.getTraStart().after(new Date())){
+            model.addAttribute("result","该培训已经开始，不能删除");
             return "manageTrain";
         }
         System.out.println(train);

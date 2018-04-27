@@ -14,7 +14,7 @@
                     success:function (obj) {
                         $('#position').empty();
                         for (var i=0;i<obj.length;i++){
-                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                            $('#position').append("<option value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
                         }
                     }
                 })

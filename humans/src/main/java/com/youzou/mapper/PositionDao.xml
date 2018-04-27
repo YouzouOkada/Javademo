@@ -33,5 +33,8 @@
     <select id="queryByNameAndDeptId" resultMap="position">
         SELECT * FROM T_POSITION WHERE POSI_NAME=#{arg0.posiName} AND POSI_DEPT_ID=#{arg1.deptId}
     </select>
+    <select id="queryById" resultMap="position">
+        SELECT * FROM T_POSITION WHERE POSI_ID=#{posiId}
+    </select>
 
 </mapper>

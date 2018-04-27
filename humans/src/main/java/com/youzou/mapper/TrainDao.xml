@@ -17,6 +17,27 @@
         INSERT INTO T_TRAIN (TRA_THEME, TRA_CON, TRA_START, TRA_END, TRA_LOC)
         VALUES (#{traTheme},#{traCon},#{traStart},#{traEnd},#{traLoc})
     </insert>
+    <update id="updateTrain">
+        UPDATE T_TRAIN
+        <set>
+            <if test="traTheme != null">
+                TRA_THEME=#{traTheme},
+            </if>
+            <if test="traCon != null">
+                TRA_CON=#{traCon},
+            </if>
+            <if test="traStart != null">
+                TRA_START=#{traStart},
+            </if>
+            <if test="traEnd != null">
+                TRA_END=#{traEnd},
+            </if>
+            <if test="traLoc != null">
+                TRA_LOC=#{traLoc}
+            </if>
+        </set>
+        WHERE TRA_ID=#{traId}
+    </update>
     <select id="queryAll" resultMap="train">
         SELECT * FROM T_TRAIN
     </select>

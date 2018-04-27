@@ -20,37 +20,35 @@
     </insert>
     <update id="updateResume">
         UPDATE T_RESUME <set>
-        <if test="resName!=null">
+        <if test="resName != null">
             res_name=#{resName},
         </if>
-        <if test="resGend!=null">
+        <if test="resGend != null">
             res_gend=#{resGend},
         </if>
-        <if test="resBirth!=null">
+        <if test="resBirth != null">
             res_birth=#{resBirth},
         </if>
-        <if test="resPhone!=null">
+        <if test="resPhone != null">
             res_phone=#{resPhone},
         </if>
-        <if test="resEmail!=null">
+        <if test="resEmail != null">
             res_email=#{resEmail},
         </if>
-        <if test="resLoc!=null">
+        <if test="resLoc != null">
             res_loc=#{resLoc},
         </if>
-        <if test="resEdu!=null">
+        <if test="resEdu != null">
             res_edu=#{resEdu},
         </if>
-        <if test="resExp!=null">
+        <if test="resExp != null">
             res_exp=#{resExp},
         </if>
-        <if test="resDesc!=null">
+        <if test="resDesc != null">
             res_desc=#{resDesc}
         </if>
     </set>
-        <where>
-            res_gu_id=#{resGuId}
-        </where>
+          WHERE  RES_GU_ID=#{resGuId}
     </update>
     <select id="queryByGuId" resultMap="resume">
         SELECT * FROM T_RESUME WHERE RES_GU_ID=#{guId}

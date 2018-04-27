@@ -13,4 +13,6 @@ public interface TrainService {
     boolean addTrain(Train train);
 
     Train queryById(Train train);
+
+    boolean updateTrain(Train train);
 }

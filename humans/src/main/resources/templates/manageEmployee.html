@@ -16,7 +16,7 @@
                         $('#position').empty();
                         $('#position').append("<option>--</option>");
                         for (var i=0;i<obj.length;i++){
-                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                            $('#position').append("<option value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
                         }
                         emp();
                     }
@@ -26,13 +26,13 @@
                 $.ajax({
                     type:"post",
                     url:"../people/empLinkage.do",
-                    data:{"posiName":$(this).val()},
+                    data:{"posiId":$(this).val()},
                     success:function (obj) {
                         $('#employee').empty();
                         $('#employee').append("<option>--</option>");
                         $emps=obj;
                         for (var i=0;i<obj.length;i++){
-                            $('#employee').append("<option th:value="+obj[i].empId+">"+obj[i].resume.resName+"</option>");
+                            $('#employee').append("<option value="+obj[i].empId+">"+obj[i].resume.resName+"</option>");
                         }
                         emp();
                     }

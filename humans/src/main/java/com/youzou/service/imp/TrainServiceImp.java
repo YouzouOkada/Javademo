@@ -30,4 +30,9 @@ public class TrainServiceImp implements TrainService {
     public Train queryById(Train train) {
         return trainDao.queryById(train);
     }
+
+    @Override
+    public boolean updateTrain(Train train) {
+        return trainDao.updateTrain(train);
+    }
 }

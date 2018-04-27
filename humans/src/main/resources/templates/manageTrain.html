@@ -22,7 +22,7 @@
                         $('#position').empty();
                         $('#position').append("<option>--</option>");
                         for (var i=0;i<obj.length;i++){
-                            $('#position').append("<option th:value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
+                            $('#position').append("<option value="+obj[i].posiId+">"+obj[i].posiName+"</option>");
                         }
                     }
                 })
@@ -31,11 +31,10 @@
                 $.ajax({
                     type:"post",
                     url:"../people/empLinkage.do",
-                    data:{"posiName":$(this).val()},
+                    data:{"posiId":$(this).val()},
                     success:function (obj) {
                         $('#employee').empty();
                         for (var i=0;i<obj.length;i++){
-                            console.log(obj[i].resume.resName);
                             $('#employee').append("<input type='checkbox' value="+obj[i].empId+" name='empId'/><span>"+obj[i].resume.resName+"</span>")
                         }
                     }
@@ -96,39 +95,23 @@
     <table border="1">
         <thead>
             <tr>
-                <th>培训主题</th><th>培训内容</th><th>开始时间</th><th>结束时间</th><th>培训地点</th><th>参加人员</th><th>修改信息</th><th>修改参加人员</th><th>删除</th>
+                <th>培训主题</th><th>培训内容</th><th>开始时间</th><th>结束时间</th><th>培训地点</th><th>参加人员</th><th>修改</th><th>删除</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="train:${trains}">
-                <td>
-                    <input readonly="readonly" th:value="${train?.traTheme}"/>
-                </td>
-                <td>
-                    <input readonly="readonly" th:value="${train?.traCon}"/>
-                </td>
-                <td>
-                    <input readonly="readonly" th:value="${#dates.format(train?.traStart,'yyyy年MM月dd日')}"/>
-                </td>
-                <td>
-                    <input readonly="readonly" th:value="${#dates.format(train?.traEnd,'yyyy年MM月dd日')}"/>
-                </td>
-                <td>
-                    <input readonly="readonly" th:value="${train?.traLoc}"/>
-                </td>
+                <td th:text="${train?.traTheme}"></td>
+                <td th:text="${train?.traCon}"></td>
+                <td th:text="${#dates.format(train?.traStart,'yyyy年MM月dd日')}"></td>
+                <td th:text="${#dates.format(train?.traEnd,'yyyy年MM月dd日')}"></td>
+                <td th:text="${train?.traLoc}"></td>
                 <td>
                     <span th:each="employee:${train?.employees}" th:text="${employee?.resume?.resName+'  '}"></span>
                 </td>
                 <td>
-                    <form action="../train/updateTrain.do" method="post">
-                        <input type="hidden" th:value="${train?.traId}" name="traId"/>
-                        <input type="submit" value="修改信息"/>
-                    </form>
-                </td>
-                <td>
                     <form action="../train/updateTrainMemberView.do" method="post">
                         <input type="hidden" th:value="${train?.traId}" name="traId"/>
-                        <input type="submit" value="修改人员"/>
+                        <input type="submit" value="修改"/>
                     </form>
                 </td>
                 <td>

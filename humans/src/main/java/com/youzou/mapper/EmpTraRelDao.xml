@@ -14,6 +14,9 @@
     <update id="updateTrain">
         UPDATE T_EMP_TRA_REL SET ETR_TRA_STAT=1 WHERE ETR_TRA_ID=#{traId}
     </update>
+    <delete id="delEmpTraRel">
+        DELETE FROM T_EMP_TRA_REL WHERE ETR_EMP_ID=#{employee.empId} AND ETR_TRA_ID=#{train.traId}
+    </delete>
     <select id="queryByTrain" resultMap="com.youzou.mapper.EmployeeDao.employee">
         SELECT * FROM T_EMPLOYEE WHERE EMP_ID IN
         (SELECT ETR_EMP_ID FROM T_EMP_TRA_REL WHERE ETR_TRA_ID=#{traId})

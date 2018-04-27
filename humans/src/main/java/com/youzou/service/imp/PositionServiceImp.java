@@ -56,4 +56,9 @@ public class PositionServiceImp implements PositionService {
     public boolean delPosition(Position position) {
         return positionDao.delPosition(position);
     }
+
+    @Override
+    public Position queryById(Position position) {
+        return positionDao.queryById(position);
+    }
 }

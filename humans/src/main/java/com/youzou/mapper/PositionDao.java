@@ -24,4 +24,6 @@ public interface PositionDao {
     boolean delPositions(Department department);
 
     boolean delPosition(Position position);
+
+    Position queryById(Position position);
 }

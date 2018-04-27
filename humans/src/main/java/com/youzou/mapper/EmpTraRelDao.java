@@ -14,4 +14,6 @@ public interface EmpTraRelDao {
     boolean updateTrain(Train train);
 
     List<Train> queryUnfinished();
+
+    boolean delEmpTraRel(EmpTraRel empTraRel);
 }
